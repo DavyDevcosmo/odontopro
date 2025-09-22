@@ -3,24 +3,132 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import clsx from "clsx";
-import { Banknote, CalendarCheck2, Folder, List, Settings } from "lucide-react";
+import { Banknote, CalendarCheck2, ChevronLeft, ChevronRight, Folder, List, Settings } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import LogoImg from "../../../../../public/logo-odonto.png";
+import { Collapsible, CollapsibleContent } from "@radix-ui/react-collapsible";
 
 
 export function SidebarDasboard({ children }: { children: React.ReactNode }) {
 
     const pathname = usePathname();
-    const [inCollapse, setInCollapse] = useState(false);
+    const [isCollapse, setIsCollapse] = useState(false);
 
 
     return (
 
         <div className="flex min-h-screen w-full">
+
+            <aside className={clsx("flex flex-col border-r bg-background transition-all duration-300 p-4 h-full", {
+                "w-20": isCollapse,
+                "w-64": !isCollapse,
+                "hidden md:flex md:fixed": true
+            })}
+            >
+
+                <div className="mb-6 mt-4">
+                    {!isCollapse && (
+                        <Image
+                            src={LogoImg}
+                            alt="Logo OdontoPro"
+                            priority
+                            quality={100}
+                        />
+                    )}
+                </div>
+                <Button
+                    className="bg-gray-100 hover>bg-gray-50 text-zinc-900 self-end mb-2"
+                    onClick={() => setIsCollapse(!isCollapse)}
+                >
+                    {!isCollapse ? <ChevronLeft className="w-12 h-12" /> : <ChevronRight className="w-12 h-12" />}
+                </Button>
+
+                {isCollapse && (
+                    <nav className="flex flex-col gap-1 mt-2 overflow-hidden">
+                        <SidebarLink
+                            href="/dasboard"
+                            label="Agendamentos"
+                            pathname={pathname}
+                            isCollapse={isCollapse}
+                            icon={<CalendarCheck2 className="w-6 h-6" />}
+                        />
+                        <SidebarLink
+                            href="/dasboard/services"
+                            label="Serviços"
+                            pathname={pathname}
+                            isCollapse={isCollapse}
+                            icon={<Folder className="w-6 h-6" />}
+                        />
+
+                        <SidebarLink
+                            href="/dasboard/profile"
+                            label="Meu perfil"
+                            pathname={pathname}
+                            isCollapse={isCollapse}
+                            icon={<Settings className="w-6 h-6" />}
+                        />
+
+                        <SidebarLink
+                            href="/dasboard/plans"
+                            label="Serviços"
+                            pathname={pathname}
+                            isCollapse={isCollapse}
+                            icon={<Banknote className="w-6 h-6" />}
+                        />
+
+
+                    </nav>
+                )}
+
+                <Collapsible open={!isCollapse}>
+                    <CollapsibleContent>
+                        <nav className="flex flex-col gap-1 overflow-y-hidden">
+                            <span className="text-sm text-gray-400 font-medium mt-1 uppercase">Painel</span>
+
+                            <SidebarLink
+                                href="/dasboard"
+                                label="Agendamentos"
+                                pathname={pathname}
+                                isCollapse={isCollapse}
+                                icon={<CalendarCheck2 className="w-6 h-6" />}
+                            />
+                            <SidebarLink
+                                href="/dasboard/services"
+                                label="Serviços"
+                                pathname={pathname}
+                                isCollapse={isCollapse}
+                                icon={<Folder className="w-6 h-6" />}
+                            />
+                            <span className="text-sm text-gray-400 font-medium mt-1 uppercase">Configurações</span>
+                            <SidebarLink
+                                href="/dasboard/profile"
+                                label="Meu perfil"
+                                pathname={pathname}
+                                isCollapse={isCollapse}
+                                icon={<Settings className="w-6 h-6" />}
+                            />
+
+                            <SidebarLink
+                                href="/dasboard/plans"
+                                label="Serviços"
+                                pathname={pathname}
+                                isCollapse={isCollapse}
+                                icon={<Banknote className="w-6 h-6" />}
+                            />
+
+
+                        </nav>
+                    </CollapsibleContent>
+                </Collapsible>
+
+            </aside>
+
             <div className={clsx("flex  flex-1 flex-col transition-all duation-300", {
-                "md:ml-20": inCollapse,
-                "md:ml-64": !inCollapse
+                "md:ml-20": isCollapse,
+                "md:ml-64": !isCollapse
             })}>
 
                 <header className="md:hidden flex items-center justify-between border-b px-2 md:px-6 h-14 z-10 sticky top-0 bg-white">
@@ -51,7 +159,7 @@ export function SidebarDasboard({ children }: { children: React.ReactNode }) {
                                     href="/dasboard"
                                     label="Agendamentos"
                                     pathname={pathname}
-                                    inCollapse={inCollapse}
+                                    isCollapse={isCollapse}
                                     icon={<CalendarCheck2 className="w-6 h-6" />}
                                 />
 
@@ -59,7 +167,7 @@ export function SidebarDasboard({ children }: { children: React.ReactNode }) {
                                     href="/dasboard/services"
                                     label="Serviços"
                                     pathname={pathname}
-                                    inCollapse={inCollapse}
+                                    isCollapse={isCollapse}
                                     icon={<Folder className="w-6 h-6" />}
                                 />
 
@@ -67,7 +175,7 @@ export function SidebarDasboard({ children }: { children: React.ReactNode }) {
                                     href="/dasboard/profile"
                                     label="Meu perfil"
                                     pathname={pathname}
-                                    inCollapse={inCollapse}
+                                    isCollapse={isCollapse}
                                     icon={<Settings className="w-6 h-6" />}
                                 />
 
@@ -75,7 +183,7 @@ export function SidebarDasboard({ children }: { children: React.ReactNode }) {
                                     href="/dasboard/plans"
                                     label="Serviços"
                                     pathname={pathname}
-                                    inCollapse={inCollapse}
+                                    isCollapse={isCollapse}
                                     icon={<Banknote className="w-6 h-6" />}
                                 />
                             </nav>
@@ -96,11 +204,11 @@ interface SidebarItemProps {
     href: string;
     icon: React.ReactNode;
     label: string;
-    inCollapse: boolean;
+    isCollapse: boolean;
     pathname: string;
 }
 
-function SidebarLink({ href, icon, label, inCollapse, pathname }: SidebarItemProps) {
+function SidebarLink({ href, icon, label, isCollapse, pathname }: SidebarItemProps) {
     return (
         <Link
             href={href}
@@ -110,7 +218,7 @@ function SidebarLink({ href, icon, label, inCollapse, pathname }: SidebarItemPro
                 "text-gray-700 hover:bg-gray-100": pathname !== href,
             })}>
                 <span className="w-6 h-6">{icon}</span>
-                {!inCollapse && <span>{label}</span>}
+                {!isCollapse && <span>{label}</span>}
             </div>
         </Link>
 
