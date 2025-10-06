@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import DoctorImg from "../../../../public/doctor-hero.png";
@@ -21,13 +22,13 @@ export function Hero() {
 
                     <div className="hidden lg:block">
                         <Image
-                        src={DoctorImg}
-                        alt="Foto ilustrativa de um proficional de saúde"
-                        width={340}
-                        height={400}
-                        className="object-container"
-                        quality={100}
-                        priority
+                            src={DoctorImg}
+                            alt="Foto ilustrativa de um proficional de saúde"
+                            width={340}
+                            height={400}
+                            className="object-container"
+                            quality={100}
+                            priority
                         />
                     </div>
 
