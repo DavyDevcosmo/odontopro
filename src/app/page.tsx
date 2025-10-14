@@ -1,8 +1,9 @@
 "use client"
-import { Footer } from "./(public)/_components/footer";
-import Header from "./(public)/_components/header";
-import { Hero } from "./(public)/_components/hero";
-import { Professionals } from "./(public)/_components/professionals";
+
+import { Footer } from "./(public)/_components/Footer"
+import Header from "./(public)/_components/Header"
+import { Hero } from "./(public)/_components/Hero"
+import { Professionals } from "./(public)/_components/Professionals";
 
 
 
