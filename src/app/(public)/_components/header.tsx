@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
+import { LogIn, Menu } from "lucide-react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useState } from "react"
+import { handleRegister } from "../_actions/login"
 
 export default function Header() {
   const { data: session, status } = useSession()
@@ -14,6 +15,10 @@ export default function Header() {
   const navItems = [
     { href: "#Profissionais", label: "Profissionais" }
   ]
+
+  async function handleLogin() {
+    await handleRegister("github")
+  }
 
 
   const NavLinks = () => (
@@ -28,7 +33,16 @@ export default function Header() {
         </Button>
       ))}
 
-
+      {session ? (
+        <Link href="/dashboard" className="flex items-center justify-center gap-2 bg-zinc-900 text-white py-1 rounded-md px-4">
+          Acessar clínica
+        </Link>
+      ) : (
+        <Button onClick={handleLogin}>
+          <LogIn />
+          Portal da clínica
+        </Button>
+      )}
     </>
   )
 
@@ -47,16 +61,18 @@ export default function Header() {
         </nav>
 
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger className="md:hidden">
-            <Button
-              className="text-black hover:bg-transparent"
-              variant="ghost"
-              size="icon">
-              <Menu className="w-6 h-6" />
-            </Button>
+          <SheetTrigger asChild>
+            <button
+              className="md:hidden p-2 rounded-md hover:bg-gray-100"
+              aria-label="Abrir menu"
+            >
+              <Menu className="w-6 h-6 text-black" />
+            </button>
           </SheetTrigger>
 
-          <SheetContent side="right" className="w-[240xp]
+
+
+          <SheetContent side="right" className="w-[240px]
         sm:w-[300px] z-[9999]"
           >
             <SheetTitle>Menu</SheetTitle>
