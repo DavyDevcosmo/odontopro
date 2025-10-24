@@ -1,3 +1,3 @@
 import { handlers} from "@/lib/auth"
 
-export const { ...nextauth } = handlers
+export const { GET, POST } = handlers
