@@ -2,7 +2,8 @@
 import { redirect } from "next/navigation"
 import { getUserData } from "./_data-access/get-info-user"
 import getSession from "@/lib/getSession"
-import ProfileContent from "./_componets/profile"
+import { ProfileContent } from "./_componets/profile"
+
 
 
 export default async function Profile() {
@@ -20,7 +21,7 @@ export default async function Profile() {
     }
     return (
         <div>
-            <ProfileContent />
+            <ProfileContent user={user} />
         </div>
     )
 }
