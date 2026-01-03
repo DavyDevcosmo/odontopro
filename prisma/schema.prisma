@@ -8,11 +8,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 model Appointment {
   id              String   @id @default(uuid())
   name            String // Nome do pacient
@@ -87,7 +82,7 @@ model User {
   status             Boolean   @default(true)
   timeZone           String?
   stripe_customer_id String?
-  times              String[]  @default([])
+  times              Json      @default("[]")
 
   subscription Subscription?
   services     Service[]
