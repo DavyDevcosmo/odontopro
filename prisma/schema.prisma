@@ -1,25 +1,23 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "postgresql"
+}
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "./generated/prisma"
 }
 
 model Appointment {
   id              String   @id @default(uuid())
-  name            String // Nome do pacient
+  name            String
   email           String
   phone           String
-  appointmentDate DateTime // Data do agendamento
-  time            String // horário escolhido
+  appointmentDate DateTime
+  time            String
+  serviceId       String
+  service         Service  @relation(fields: [serviceId], references: [id])
 
-  serviceId String // id do serviço agendado
-  service   Service @relation(fields: [serviceId], references: [id])
-
-  userId String // id da clinica (user)
+  userId String
   user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
