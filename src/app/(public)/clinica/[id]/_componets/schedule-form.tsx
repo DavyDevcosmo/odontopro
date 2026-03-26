@@ -12,8 +12,7 @@ export const appointmentSchema = z.object({
     serviceId: z.string().min(1, "O serviço é obrigatório")
 })
 
-export type AppointmentFormData = z.infer<typeof appointmentSchema
->
+export type AppointmentFormData = z.infer<typeof appointmentSchema>
 
 export function useAppointmentForm() {
     return useForm<AppointmentFormData>({
@@ -23,7 +22,8 @@ export function useAppointmentForm() {
             email: "",
             phone: "",
             serviceId: "",
-            date: new Date(),
-        }
+            date: undefined, // ✅ Mude para undefined
+        },
+        mode: "onChange" // ✅ Adicione isso para validação em tempo real
     })
 }
