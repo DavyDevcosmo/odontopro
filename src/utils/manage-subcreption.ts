@@ -1,20 +1,11 @@
 /**
  * Salvar, atualizar ou deletar informações das assinaturas (subscription) no banco de  dados, sincronizando com Strape.
- * 
- * 
- * @async
- * @function manageSubscription
- * @param {string} subscriptionId - O ID assinatura a ser gerenciada.
- * @param {string} customerId - O ID do cliente associado á assiantura.
- * @param {string} createAction - Indica se uma nova assinatura deve ser criada.
- * @param {boolean} deleteAction - Indica se uma assinatura deve ser deletada.
- * @param {Plan} [type] - O plano associado á assinatura.
- * @returns {Promise<Response|void>}
  */
 
 import prisma from "@/lib/prisma";
 import { Plan } from "@prisma/client";
 import { stripe } from "./stripe";
+
 
 export async function manageSubscription(
     subscriptionId: string,
@@ -65,6 +56,7 @@ export async function manageSubscription(
             console.log("ERROR AO SALVAR NO BANCO A ASSINATURA")
             console.log(err);
         }
+
     } else {
         try {
             const findSubscription = await prisma.subscription.findFirst({
@@ -82,7 +74,6 @@ export async function manageSubscription(
                 data: {
                     status: subscription.status,
                     priceId: subscription.items.data[0].price.id,
-                    plan: type ?? "BASIC"
                 }
             })
         } catch (err) {
