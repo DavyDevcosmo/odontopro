@@ -27,7 +27,7 @@ export function Hero() {
                             width={340}
                             height={400}
                             className="object-container"
-                            quality={100}
+                            quality={75}
                             priority
                         />
                     </div>
