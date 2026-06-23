@@ -8,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import LogoImg from "../../../../../public/logo-odonto.png";
 import { Collapsible, CollapsibleContent } from "@radix-ui/react-collapsible";
 
 
@@ -32,7 +31,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
         <div className="flex min-h-screen w-full">
 
-            <aside className={clsx("flex flex-col border-r bg-background transition-all duration-300 p-4 h-full", {
+            <aside className={clsx("flex flex-col border-r bg-Primary-bg transition-all duration-300 p-4 h-full ", {
                 "w-20": isCollapse,
                 "w-64": !isCollapse,
                 "hidden md:flex md:fixed": true
@@ -41,12 +40,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
                 <div className="mb-6 mt-4">
                     {!isCollapse && (
-                        <Image
-                            src={LogoImg}
-                            alt="Logo OdontoPro"
-                            priority
-                            quality={100}
-                        />
+                        <h1 className="font-bold text-[#E0EEF5] text-xl">Psico<span className="text-[#4BA3C3]">Pro</span></h1>
                     )}
                 </div>
                 <Button
@@ -57,7 +51,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 </Button>
 
                 {isCollapse && (
-                    <nav className="flex flex-col gap-1 mt-2 overflow-hidden">
+                    <nav className="flex flex-col gap-1 mt-2 overflow-hidden  ">
                         <SidebarLink
                             href="/dashboard"
                             label="Agendamentos"
@@ -96,7 +90,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <Collapsible open={!isCollapse}>
                     <CollapsibleContent>
                         <nav className="flex flex-col gap-1 overflow-y-hidden">
-                            <span className="text-sm text-gray-400 font-medium mt-1 uppercase">Painel</span>
+                            <span className="text-sm text-text-secondary font-medium mt-1 uppercase">Painel</span>
 
                             <SidebarLink
                                 href="/dashboard"
@@ -112,7 +106,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                 isCollapse={isCollapse}
                                 icon={<Folder className="w-6 h-6" />}
                             />
-                            <span className="text-sm text-gray-400 font-medium mt-1 uppercase">Configurações</span>
+                            <span className="text-sm text-text-secondary font-medium mt-1 uppercase">Configurações</span>
                             <SidebarLink
                                 href="/dashboard/profile"
                                 label="Meu perfil"
@@ -123,7 +117,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
                             <SidebarLink
                                 href="/dashboard/plans"
-                                label="Serviços"
+                                label="Planos"
                                 pathname={pathname}
                                 isCollapse={isCollapse}
                                 icon={<Banknote className="w-6 h-6" />}
@@ -226,7 +220,7 @@ function SidebarLink({ href, icon, label, isCollapse, pathname }: SidebarItemPro
         >
             <div className={clsx("flex items-center gap-2 px-3 py-2 rounded-md transition-colors", {
                 "text-white bg-blue-500": pathname === href,
-                "text-gray-700 hover:bg-gray-100": pathname !== href,
+                "text-text-secondary hover:bg-gray-100": pathname !== href,
             })}>
                 <span className="w-6 h-6">{icon}</span>
                 {!isCollapse && <span>{label}</span>}
