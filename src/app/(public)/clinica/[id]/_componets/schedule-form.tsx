@@ -22,8 +22,8 @@ export function useAppointmentForm() {
             email: "",
             phone: "",
             serviceId: "",
-            date: undefined, // ✅ Mude para undefined
+            date: undefined,
         },
-        mode: "onChange" // ✅ Adicione isso para validação em tempo real
+        mode: "onChange"
     })
 }
