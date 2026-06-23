@@ -1,17 +1,15 @@
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+
 } from "@/components/ui/card"
 import Image from "next/image"
 import fotoImg from '../../../../public/foto1.png'
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { Prisma } from "@prisma/client"
+
 import { PremiumCardBedge } from "./Premium-badge"
+import { Prisma } from "../../../../prisma/generated/prisma/client"
 
 type UserWithSubscription = Prisma.UserGetPayload<{
     include: {
@@ -54,7 +52,7 @@ export function Professionals({ professionals }: ProfessionalsProps) {
                                     </div>
                                 </div>
 
-                                <div className="p-4 space-y-4 min-h-[160px] flex flex-col justify-between">
+                                <div className="p-4 space-y-4 min-h-[40] flex flex-col justify-between">
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <h3 className="font-semibold">
@@ -78,12 +76,8 @@ export function Professionals({ professionals }: ProfessionalsProps) {
                             </CardContent>
                         </Card>
                     ))}
-
                 </section>
-
-
             </div>
-
         </section>
     )
 } 
