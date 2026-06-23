@@ -1,11 +1,19 @@
-"use client"
 
 import { Footer } from "./_components/Footer";
 import Header from "./_components/Header";
 import { Hero } from "./_components/Hero";
 import { Professionals } from "./_components/Professionals";
+import { getProfessionals } from "./data-acess/get-professional";
 
-export default function Home() {
+
+export const revalidate = 120;
+
+export default async function Home() {
+
+  const professionals = await getProfessionals();
+
+
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -13,7 +21,7 @@ export default function Home() {
       <div>
         <Hero />
 
-        <Professionals />
+        <Professionals professionals={professionals || []} />
 
         <Footer />
       </div>
