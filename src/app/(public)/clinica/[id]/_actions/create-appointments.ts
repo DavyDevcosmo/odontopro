@@ -29,7 +29,7 @@ export async function createNewAppointment(formData: FormSchema) {
   const data = schema.data
 
   try {
-    // ✅ Validação correta de data
+   
     const selectedDate = new Date(data.date)
     
     if (isNaN(selectedDate.getTime())) {
