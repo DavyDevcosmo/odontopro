@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { subscriptionPlans } from "@/utils/plans";
@@ -10,12 +9,14 @@ export function GridPlans() {
             {subscriptionPlans.map((plan, index) => (
                 <Card
                     key={plan.id}
-                    className={`flex flwx-col w-full mx-auto ${index === 1 && "border-accent-primary"}`}>
-                    {index === 1 && (
-                        <div className="bg-accent-primary w-full py-3 text-center rounded-t-xl">
-                            <p className="font-semibold text-white">PROMOÇÃO EXCLUSIVA</p>
+                    className={`flex flex-col w-full mx-auto relative ${index === 1 && "border-accent-primary pt-10"}`}
+                >
+                    {index === 1 && (                      
+                        <div className="absolute top-0 left-0 bg-accent-primary w-full py-2 text-center rounded-t-lg">
+                            <p className="text-sm font-semibold text-white tracking-wider">PROMOÇÃO EXCLUSIVA</p>
                         </div>
                     )}
+                    
                     <CardHeader>
                         <CardTitle className="text-xl md:text-2xl">
                             {plan.name}
@@ -25,7 +26,7 @@ export function GridPlans() {
                         </CardDescription>
                     </CardHeader>
 
-                    <CardContent>
+                    <CardContent className="flex-1">
                         <ul>
                             {plan.features.map((feature, index) => (
                                 <li key={index} className="text-sm md:text-base">
