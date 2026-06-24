@@ -1,7 +1,7 @@
 "use client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { subscriptionPlans } from "@/utils/plans";
-import { Subscription } from "@prisma/client";
+import { Subscription } from "../../../../../../prisma/generated/prisma/browser";
 import { createPortalCustomer } from "../_actions/create-portal-customer";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";

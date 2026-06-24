@@ -3,7 +3,7 @@
  */
 
 import prisma from "@/lib/prisma";
-import { Plan } from "@prisma/client";
+import { Plan } from "../../prisma/generated/prisma/enums";
 import { stripe } from "./stripe";
 
 

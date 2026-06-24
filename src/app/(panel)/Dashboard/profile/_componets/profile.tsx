@@ -35,7 +35,7 @@ import { ArrowRight } from 'lucide-react'
 
 import imgTest from '../../../../../../public/foto1.png'
 import { cn } from '@/lib/utils'
-import { Prisma } from '@prisma/client'
+import { Prisma } from '../../../../../../prisma/generated/prisma/browser'
 import { updateProfile } from '../_actions/update-profile'
 import { toast } from 'sonner'
 import { formatPhone } from "@/utils/formatPhone"
@@ -55,7 +55,9 @@ interface ProfileContentProsps {
 
 export function ProfileContent({ user }: ProfileContentProsps) {
     const router = useRouter();
-    const [selectedHours, setSelectedHours] = useState<string[]>(user.times ?? [])
+    const [selectedHours, setSelectedHours] = useState<string[]>(
+        Array.isArray(user.times) ? (user.times as string[]) : []
+    )
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
     const { update } = useSession();
 

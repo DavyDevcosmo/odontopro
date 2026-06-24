@@ -1,15 +1,16 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+
 import { LogIn, Menu } from "lucide-react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useState } from "react"
 import { handleRegister } from "../_actions/login"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 export default function Header() {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const [isOpen, setIsOpen] = useState(false)
 
   const navItems = [
@@ -46,8 +47,6 @@ export default function Header() {
     </>
   )
 
-
-
   return (
     <header className="fixed top-0 right-0 left-0 z-[999] py-4 px-6 bg-surface-card border-b border-border">
       <div className="container mx-auto flex items-center pb-4 sm:pb-0 justify-between ">
@@ -62,12 +61,12 @@ export default function Header() {
 
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <button
+            <Button
               className="md:hidden p-2 rounded-md hover:bg-surface-slot-hover"
               aria-label="Abrir menu"
             >
               <Menu className="w-6 h-6 text-content-primary" />
-            </button>
+            </Button>
           </SheetTrigger>
 
 

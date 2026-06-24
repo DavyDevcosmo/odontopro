@@ -3,7 +3,7 @@
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { stripe } from '@/utils/stripe'
-import { Plan } from '@prisma/client'
+import { Plan } from '../../../../../../prisma/generated/prisma/enums'
 
 interface SubscriptionProps {
     type: Plan;

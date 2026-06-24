@@ -5,7 +5,7 @@ import { planDetailInfo } from "./get-plans";
 import prisma from "@/lib/prisma";
 import { canCreateService } from "./canCreateService";
 
-export type PLAN_PROP = "BASIC " | "PROFESSIONAL" | "TRIAL" | "EXPIRED";
+export type PLAN_PROP = "BASIC" | "PROFESSIONAL" | "TRIAL" | "EXPIRED";
 type TypeCheck = "service"
 export interface ResultPermissionProp {
     hasPermission: boolean;
