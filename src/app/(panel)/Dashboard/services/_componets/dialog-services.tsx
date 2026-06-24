@@ -208,7 +208,7 @@ export function DialogServices({ closeModal, initialValues, serviceId }: DialogS
                         />
                     </div>
 
-                    <Button type="submit" className="w-full font-semibold text-white bg-black"
+                    <Button type="submit" className="w-full font-semibold"
                         disabled={loading}>
                         {loading ? "Carregando..." : `${serviceId ? "Atualizar serviço" : "Cadastrar serviço"}`}
                     </Button>

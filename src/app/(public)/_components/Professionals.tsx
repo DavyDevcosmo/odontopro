@@ -25,10 +25,10 @@ export function Professionals({ professionals }: ProfessionalsProps) {
 
     console.log("professionals:", professionals)
     return (
-        <section className="bg-gray-50 py-16">
+        <section className="bg-surface-page py-16" id="Profissionais">
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl text-center mb-12 font-bold">
+                <h2 className="text-3xl text-center mb-12 font-bold text-content-primary">
                     Clinicas disponíveis
                 </h2>
 
@@ -58,7 +58,7 @@ export function Professionals({ professionals }: ProfessionalsProps) {
                                             <h3 className="font-semibold">
                                                 {clinic.name}
                                             </h3>
-                                            <p className="text-sm text-gray-500 line-clamp-2">
+                                            <p className="text-sm text-content-secondary line-clamp-2">
                                                 {clinic.address ?? "Endereço não informado."}
                                             </p>
                                         </div>
@@ -67,7 +67,7 @@ export function Professionals({ professionals }: ProfessionalsProps) {
                                     <Link
                                         href={`/clinica/${clinic.id}`}
                                         target="_blank"
-                                        className="w-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center py-2 rounded-md text-sm md:text-base font-medium"
+                                        className="w-full bg-accent-dark hover:bg-sidebar-text-muted-dark text-white flex items-center justify-center py-2 rounded-md text-sm md:text-base font-medium transition-colors"
                                     >
                                         Agendar horário
                                         <ArrowRight className="ml-2" />

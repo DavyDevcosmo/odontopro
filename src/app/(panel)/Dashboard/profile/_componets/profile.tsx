@@ -220,7 +220,7 @@ export function ProfileContent({ user }: ProfileContentProsps) {
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Selecione o status da clincia" />
                                                     </SelectTrigger>
-                                                    <SelectContent className='bg-white'>
+                                                    <SelectContent className='bg-surface-card border-border'>
                                                         <SelectItem value="active">ATIVO (clinica aberta)</SelectItem>
                                                         <SelectItem value="inactive">INATIVO (clinica fechada)</SelectItem>
                                                     </SelectContent>
@@ -253,7 +253,7 @@ export function ProfileContent({ user }: ProfileContentProsps) {
                                             </DialogHeader>
 
                                             <section className='py-4'>
-                                                <p className='text-sm text-muted-foreground mb-2'>
+                                                <p className='text-sm text-content-secondary mb-2'>
                                                     Clique nos horários abaixo para marcar ou desmcar:
                                                 </p>
 
@@ -262,7 +262,7 @@ export function ProfileContent({ user }: ProfileContentProsps) {
                                                         <Button
                                                             key={hour}
                                                             variant="outline"
-                                                            className={cn('h-10', selectedHours.includes(hour) && 'border-2 border-emerald-500 text-primary')}
+                                                            className={cn('h-10', selectedHours.includes(hour) && 'border-2 border-accent-primary text-content-primary')}
                                                             onClick={() => toggleHour(hour)}
                                                         >
                                                             {hour}
@@ -302,7 +302,7 @@ export function ProfileContent({ user }: ProfileContentProsps) {
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Selecione o seu fuso horário" />
                                                     </SelectTrigger>
-                                                    <SelectContent className='bg-white'>
+                                                    <SelectContent className='bg-surface-card border-border'>
                                                         {timeZones.map((zone) => (
                                                             <SelectItem key={zone} value={zone}>
                                                                 {zone}
@@ -318,7 +318,7 @@ export function ProfileContent({ user }: ProfileContentProsps) {
 
                                 <Button
                                     type="submit"
-                                    className='w-full bg-emerald-500 hover:bg-emerald-400'
+                                    className='w-full'
                                 >
                                     Salvar alterações
                                 </Button>

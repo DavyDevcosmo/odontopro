@@ -69,10 +69,10 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
     return (
         <div className="relative w-40 h-40 md:w-48 md:h-48">
             <div className="relative flex items-center justify-center w-full">
-                <span className="absolute cursor-pointer z-[2] bg-slate-50/80 p-2 rounded-full">
+                <span className="absolute cursor-pointer z-[2] bg-surface-card/80 p-2 rounded-full">
                     {loading
-                        ? <Loader size={16} color="#131313" className="animate-spin" />
-                        : <Upload size={16} color="#131313" />
+                        ? <Loader size={16} className="animate-spin text-content-primary" />
+                        : <Upload size={16} className="text-content-primary" />
                     }
                 </span>
 
@@ -87,7 +87,7 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
                 src={previewImage || semFoto}
                 alt="foto do perfil da clinica"
                 fill
-                className="w-full h-48 object-cover rounded-full bg-slate-200"
+                className="w-full h-48 object-cover rounded-full bg-surface-slot-hover"
                 quality={100}
                 priority
                 sizes="(max-width: 480px) 100vw, (max-width: 1024px) 75vw, 60vw"

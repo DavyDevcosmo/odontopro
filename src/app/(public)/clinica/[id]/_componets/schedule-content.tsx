@@ -152,13 +152,13 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
         loading: loadingSlots
     });
     return (
-        <div className="min-h-screen flex flex-col">
-            <div className="h-32 bg-emerald-500" />
+        <div className="min-h-screen flex flex-col bg-surface-page">
+            <div className="h-32 bg-accent-primary" />
 
             <section className="contianer mx-auto px-4 -mt-16">
                 <div className="max-w-2xl mx-auto">
                     <article className="flex flex-col items-center">
-                        <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-white mb-8">
+                        <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-surface-card mb-8">
                             <Image
                                 src={clinic.image ? clinic.image : imgTest}
                                 alt="Foto da clinica"
@@ -167,7 +167,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                             />
                         </div>
 
-                        <h1 className="text-2xl font-bold mb-2">
+                        <h1 className="text-2xl font-bold mb-2 text-content-primary">
                             {clinic.name}
                         </h1>
                         <div className="flex items-center gap-1">
@@ -187,7 +187,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(handleRegisterAppointmnent)}
-                        className="mx-2 space-y-6 bg-white p-6 border rounded-md shadow-sm"
+                        className="mx-2 space-y-6 bg-surface-card p-6 border border-border rounded-md shadow-sm"
                     >
 
                         <FormField
@@ -304,7 +304,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                         {selectedServiceId && (
                             <div className='space-y-2'>
                                 <Label className="font-semibold">Horários disponíveis:</Label>
-                                <div className='bg-gray-100 p-4 rounded-lg'>
+                                <div className='bg-surface-slot-hover border border-border p-4 rounded-lg'>
                                     {loadingSlots ? (
                                         <p>Carregando horários...</p>
                                     ) : availableTimeSlots.length === 0 ? (
@@ -329,7 +329,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                         {clinic.status ? (
                             <Button
                                 type="submit"
-                                className="w-full bg-emerald-500 hover:bg-emerald-400"
+                                className="w-full"
                                 disabled={!watch("name") || !watch("email") || !watch("phone") || !watch("date") || !watch("serviceId") || !selectedTime}
                             >
                                 Realizar agendamento

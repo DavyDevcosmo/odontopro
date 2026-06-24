@@ -121,13 +121,13 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
 
                                 if (occupant) {
                                     return (
-                                        <div key={slot} className="flex items-center py-2 border-t last:border-b">
+                                        <div key={slot} className="flex items-center py-2 border-t border-border last:border-b">
                                             <div className="w-16 text-sm font-semibold">
                                                 {slot}
                                             </div>
                                             <div className="flex-1 text-sm">
                                                 <div className="font-semibold">{occupant.name}</div>
-                                                <div className="text-sm text-gray-500">{occupant.phone}
+                                                <div className="text-sm text-content-secondary">{occupant.phone}
                                                 </div>
                                             </div>
 
@@ -157,11 +157,11 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                                 return (
                                     <div
                                         key={slot}
-                                        className="flex items-center py-2 border-t last:border-b border-gray-300"
+                                        className="flex items-center py-2 border-t border-border last:border-b"
                                     >
 
-                                        <div className="w-16 text-sm font-semibold">{slot}</div>
-                                        <div className="flex-1 text-sm text-gray-500">Disponível</div>
+                                        <div className="w-16 text-sm font-semibold text-content-primary">{slot}</div>
+                                        <div className="flex-1 text-sm text-content-secondary">Disponível</div>
                                     </div>
                                 )
                             })

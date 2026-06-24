@@ -40,7 +40,7 @@ export function SubscriptionDetail({ subscription }:
                         {subscription.plan === "BASIC" ? "BASIC" : "PROFESSIONAL"}
                     </h3>
 
-                    <div className="bg-green-500 text-white w-fit px-4 py-1 rounded-md">
+                    <div className="bg-status-chip-confirmed-bg text-status-chip-confirmed-text w-fit px-4 py-1 rounded-md font-medium">
                         {subscription.status === "active" ? "ATIVO" : "INATIVO"}
                     </div>
                 </div>
@@ -52,7 +52,7 @@ export function SubscriptionDetail({ subscription }:
                 </ul>
             </CardContent>
             <CardFooter>
-                <Button onClick={handleManegeSubscription} className="bg-black text-white">Gerenciar assinatura</Button>
+                <Button onClick={handleManegeSubscription}>Gerenciar assinatura</Button>
 
             </CardFooter>
 

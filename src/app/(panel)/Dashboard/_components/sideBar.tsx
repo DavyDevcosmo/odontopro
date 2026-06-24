@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import clsx from "clsx";
 import { Banknote, CalendarCheck2, ChevronLeft, ChevronRight, Folder, List, Settings } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,9 +28,9 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
     return (
 
-        <div className="flex min-h-screen w-full">
+        <div className="flex min-h-screen w-full bg-surface-page">
 
-            <aside className={clsx("flex flex-col border-r bg-Primary-bg transition-all duration-300 p-4 h-full ", {
+            <aside className={clsx("flex flex-col border-r border-sidebar-divider bg-sidebar-bg transition-all duration-300 p-4 h-full", {
                 "w-20": isCollapse,
                 "w-64": !isCollapse,
                 "hidden md:flex md:fixed": true
@@ -40,11 +39,12 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
                 <div className="mb-6 mt-4">
                     {!isCollapse && (
-                        <h1 className="font-bold text-[#E0EEF5] text-xl">Psico<span className="text-[#4BA3C3]">Pro</span></h1>
+                        <h1 className="font-bold text-sidebar-text-primary text-xl">Psico<span className="text-accent-primary">Pro</span></h1>
                     )}
                 </div>
                 <Button
-                    className="bg-gray-100 hover>bg-gray-50 text-zinc-900 self-end mb-2"
+                    variant="outline"
+                    className="border-sidebar-divider bg-sidebar-item-active text-sidebar-text-primary hover:bg-sidebar-text-muted-dark/30 self-end mb-2"
                     onClick={() => setIsCollapse(!isCollapse)}
                 >
                     {!isCollapse ? <ChevronLeft className="w-12 h-12" /> : <ChevronRight className="w-12 h-12" />}
@@ -90,7 +90,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <Collapsible open={!isCollapse}>
                     <CollapsibleContent>
                         <nav className="flex flex-col gap-1 overflow-y-hidden">
-                            <span className="text-sm text-text-secondary font-medium mt-1 uppercase">Painel</span>
+                            <span className="text-sm text-sidebar-text-secondary font-medium mt-1 uppercase">Painel</span>
 
                             <SidebarLink
                                 href="/dashboard"
@@ -106,7 +106,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                 isCollapse={isCollapse}
                                 icon={<Folder className="w-6 h-6" />}
                             />
-                            <span className="text-sm text-text-secondary font-medium mt-1 uppercase">Configurações</span>
+                            <span className="text-sm text-sidebar-text-secondary font-medium mt-1 uppercase">Configurações</span>
                             <SidebarLink
                                 href="/dashboard/profile"
                                 label="Meu perfil"
@@ -130,12 +130,12 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
             </aside>
 
-            <div className={clsx("flex  flex-1 flex-col transition-all duation-300", {
+            <div className={clsx("flex flex-1 flex-col transition-all duration-300 bg-surface-page", {
                 "md:ml-20": isCollapse,
                 "md:ml-64": !isCollapse
             })}>
 
-                <header className="md:hidden flex items-center justify-between border-b px-2 md:px-6 h-14 z-10 sticky top-0 bg-white">
+                <header className="md:hidden flex items-center justify-between border-b border-border px-2 md:px-6 h-14 z-10 sticky top-0 bg-surface-card">
                     <Sheet>
                         <div className="flex items-center gap-4">
                             <SheetTrigger asChild>
@@ -145,17 +145,17 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                 </Button>
                             </SheetTrigger>
 
-                            <h1 className="text-base md:text-lg font-semibold">
-                                Menu OdontoPRO
+                            <h1 className="text-base md:text-lg font-semibold text-content-primary">
+                                Menu PsicoPro
                             </h1>
                         </div>
 
-                        <SheetContent side="left" className="sm:max-w-xs text-black">
-                            <SheetTitle>
-                                OdontoPRO
+                        <SheetContent side="left" className="sm:max-w-xs bg-surface-card border-border text-content-primary">
+                            <SheetTitle className="text-content-primary">
+                                PsicoPro
                             </SheetTitle>
-                            <SheetDescription>
-                                Menu adiminitrativo
+                            <SheetDescription className="text-content-secondary">
+                                Menu administrativo
                             </SheetDescription>
 
                             <nav
@@ -166,6 +166,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                     pathname={pathname}
                                     isCollapse={isCollapse}
                                     icon={<CalendarCheck2 className="w-6 h-6" />}
+                                    variant="menu"
                                 />
 
                                 <SidebarLink
@@ -174,6 +175,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                     pathname={pathname}
                                     isCollapse={isCollapse}
                                     icon={<Folder className="w-6 h-6" />}
+                                    variant="menu"
                                 />
 
                                 <SidebarLink
@@ -182,21 +184,23 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                     pathname={pathname}
                                     isCollapse={isCollapse}
                                     icon={<Settings className="w-6 h-6" />}
+                                    variant="menu"
                                 />
 
                                 <SidebarLink
                                     href="/dashboard/plans"
-                                    label="Serviços"
+                                    label="Planos"
                                     pathname={pathname}
                                     isCollapse={isCollapse}
                                     icon={<Banknote className="w-6 h-6" />}
+                                    variant="menu"
                                 />
                             </nav>
                         </SheetContent>
                     </Sheet>
                 </header>
 
-                <main className="flex-1 py-4 px-2 md:p-8">
+                <main className="flex-1 py-4 px-2 md:p-8 bg-surface-page">
                     {children}
                 </main>
 
@@ -211,16 +215,19 @@ interface SidebarItemProps {
     label: string;
     isCollapse: boolean;
     pathname: string;
+    variant?: "sidebar" | "menu";
 }
 
-function SidebarLink({ href, icon, label, isCollapse, pathname }: SidebarItemProps) {
+function SidebarLink({ href, icon, label, isCollapse, pathname, variant = "sidebar" }: SidebarItemProps) {
+    const isActive = pathname === href;
+
     return (
-        <Link
-            href={href}
-        >
+        <Link href={href}>
             <div className={clsx("flex items-center gap-2 px-3 py-2 rounded-md transition-colors", {
-                "text-white bg-blue-500": pathname === href,
-                "text-text-secondary hover:bg-gray-100": pathname !== href,
+                "bg-sidebar-item-active text-sidebar-text-primary": variant === "sidebar" && isActive,
+                "text-sidebar-text-secondary hover:bg-sidebar-item-active hover:text-sidebar-text-primary": variant === "sidebar" && !isActive,
+                "bg-status-chip-confirmed-bg text-status-chip-confirmed-text": variant === "menu" && isActive,
+                "text-content-secondary hover:bg-surface-slot-hover hover:text-content-primary": variant === "menu" && !isActive,
             })}>
                 <span className="w-6 h-6">{icon}</span>
                 {!isCollapse && <span>{label}</span>}

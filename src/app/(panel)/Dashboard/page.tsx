@@ -25,7 +25,7 @@ export default async function Dashboard() {
                 <Link href={`/clinica/${session.user?.id}`}
                     target="_black"
                 >
-                    <Button className="bg-emerald-500 hover:bg-emerald-400 flex-1 md:flex-[0]">
+                    <Button className="flex-1 md:flex-[0]">
                         <Calendar className="w-5 h-5 " />
                         <span>Novo agendamento</span>
                     </Button>
@@ -39,7 +39,7 @@ export default async function Dashboard() {
             )}
 
             {subscription?.subscriptionStatus === "TRIAL" && (
-                <div className="bg-green-500 text-white text-sm md:text-base px-3 py-2 rounded-md">
+                <div className="bg-status-trial-bar-bg text-status-trial-bar-text text-sm md:text-base px-3 py-2 rounded-md">
                     <p className="font-semibold">{subscription?.message}</p>
                 </div>
             )}

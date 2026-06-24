@@ -37,7 +37,7 @@ export function DialogAppointment({ appointment }: DialogAppointmentProps) {
                         <p><span className="font-semibold">Nome:</span>{appointment.name}</p>
                         <p><span className="font-semibold">Email:</span>{appointment.email}</p>
 
-                        <section className="bg-gray-100 mt-4 p-2 rounded-md">
+                        <section className="bg-surface-slot-hover mt-4 p-2 rounded-md border border-border">
                             <p><span className="font-semibold">Serviço:</span>{appointment.service.name}</p>
                             <p><span className="font-semibold">Valor:</span>{formatCurrency((appointment.service.price / 100))}</p>
                         </section>

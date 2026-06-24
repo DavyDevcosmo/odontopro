@@ -25,7 +25,7 @@ export default function Header() {
     <>
       {navItems.map((item) => (
         <Button key={item.href} asChild
-          className="bg-transparent hover:bg-transparent text-black shadow-none"
+          className="bg-transparent hover:bg-transparent text-content-primary hover:text-accent-primary shadow-none"
         >
           <Link href={item.href} className="text-base">
             {item.label}
@@ -34,7 +34,7 @@ export default function Header() {
       ))}
 
       {session ? (
-        <Link href="/dashboard" className="flex items-center justify-center gap-2 bg-zinc-900 text-white py-1 rounded-md px-4">
+        <Link href="/dashboard" className="flex items-center justify-center gap-2 bg-accent-dark text-white hover:bg-sidebar-text-muted-dark transition-colors py-1 rounded-md px-4">
           Acessar clínica
         </Link>
       ) : (
@@ -49,11 +49,11 @@ export default function Header() {
 
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-[999] py-4 px-6 bg-white ">
+    <header className="fixed top-0 right-0 left-0 z-[999] py-4 px-6 bg-surface-card border-b border-border">
       <div className="container mx-auto flex items-center pb-4 sm:pb-0 justify-between ">
 
-        <Link href="/" className="text-3xl font-bold text-shadow-zinc-900">
-          Odonto<span className="text-emerald-500">Pro</span>
+        <Link href="/" className="text-3xl font-bold text-content-primary">
+          Psico<span className="text-accent-primary">Pro</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-4">
@@ -63,22 +63,21 @@ export default function Header() {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <button
-              className="md:hidden p-2 rounded-md hover:bg-gray-100"
+              className="md:hidden p-2 rounded-md hover:bg-surface-slot-hover"
               aria-label="Abrir menu"
             >
-              <Menu className="w-6 h-6 text-black" />
+              <Menu className="w-6 h-6 text-content-primary" />
             </button>
           </SheetTrigger>
 
 
 
-          <SheetContent side="right" className="w-[240px]
-        sm:w-[300px] z-[9999]"
+          <SheetContent side="right" className="w-[240px] sm:w-[300px] z-[9999] bg-surface-card border-border"
           >
-            <SheetTitle>Menu</SheetTitle>
+            <SheetTitle className="text-content-primary">Menu</SheetTitle>
             <SheetHeader></SheetHeader>
 
-            <SheetDescription>
+            <SheetDescription className="text-content-secondary">
               Veja nosso links
             </SheetDescription>
 

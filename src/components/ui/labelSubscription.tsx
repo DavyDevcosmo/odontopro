@@ -12,13 +12,13 @@ export function LabelSubscription({ expired }: { expired: boolean }) {
                     </h3>
                 )}
 
-                <p className="text-sm text-gray-50">
+                <p className="text-sm text-white/90">
                     Acesse o seu plano para  verificar os detalhes
                 </p>
 
             </div>
 
-            <Link href="/dashboard/plans" className="bg-zinc-900 text-white px-3 py-1 rounded-md w-fit">
+            <Link href="/dashboard/plans" className="bg-accent-dark text-white px-3 py-1 rounded-md w-fit hover:bg-sidebar-text-muted-dark transition-colors">
                 Acessar planos
             </Link>
         </div>

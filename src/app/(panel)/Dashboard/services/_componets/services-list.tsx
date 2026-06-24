@@ -72,7 +72,7 @@ export function ServicesList({ services, permission }: ServicesListProps) {
                         )}
 
                         {!permission.hasPermission && (
-                            <Link href='/dashboard/plans' className='text-red-500'>Limite de serviços atingido</Link>
+                            <Link href='/dashboard/plans' className='text-accent-primary hover:underline'>Limite de serviços atingido</Link>
                         )}
 
                         <DialogContent
@@ -104,8 +104,8 @@ export function ServicesList({ services, permission }: ServicesListProps) {
                                     className='flex items-center justify-between'>
                                     <div className='flex items-center space-x-2'>
                                         <span className='font-medium'>{service.name}</span>
-                                        <span className='text-gray-500'>-</span>
-                                        <span className='text-gray-500'>
+                                        <span className='text-content-secondary'>-</span>
+                                        <span className='text-content-secondary'>
                                             {formatCurrency((service.price / 100))}
                                         </span>
                                     </div>

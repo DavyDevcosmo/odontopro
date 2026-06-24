@@ -26,7 +26,7 @@ export function SubscriptionButton({ type }: SubscriptionButtonProps) {
 
     return (
         <Button
-            className={`w-full ${type === "PROFESSIONAL" && "bg-emerald-500 hover:bg-emerald-400"}`}
+            className={`w-full ${type === "PROFESSIONAL" && "bg-accent-primary hover:bg-accent-primary/90 text-white"}`}
             onClick={handleCreateBilling}
 
         >
