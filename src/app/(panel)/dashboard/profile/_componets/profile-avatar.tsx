@@ -5,6 +5,8 @@ import { ChangeEvent, useState } from "react";
 import semFoto from "../../../../../../public/foto1.png"
 import { Loader, Upload } from "lucide-react";
 import { toast } from "sonner";
+import { updateProfileImage } from "../_actions/update-profile";
+import { useRouter } from "next/navigation";
 
 interface AvatarProfileProps {
     avatarUrl: string | null;
@@ -12,6 +14,7 @@ interface AvatarProfileProps {
 }
 
 export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
+    const router = useRouter();
     const [previewImage, setPreviewImage] = useState(avatarUrl)
     const [loading, setLoading] = useState(false);
 
@@ -30,7 +33,17 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
             const urlImage = await uploadImage(newFile)
 
             if (urlImage) {
-                setPreviewImage(urlImage)
+                const saveResult = await updateProfileImage(urlImage);
+
+                if (saveResult.error) {
+                    toast.error(saveResult.error);
+                    setLoading(false);
+                    return;
+                }
+
+                setPreviewImage(urlImage);
+                router.refresh();
+                toast.success("Imagem alterada com sucesso!");
             }
 
             setLoading(false);
@@ -57,7 +70,6 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
                 return null;
             }
 
-            toast.success("Imagem alterada com sucesso!")
             return data.results.secure_url as string
 
         } catch (err) {

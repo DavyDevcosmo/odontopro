@@ -15,6 +15,32 @@ const formSchema = z.object({
 
 type  FormSchema = z.infer<typeof formSchema>
 
+export async function updateProfileImage(imageUrl: string) {
+    const session = await auth();
+
+    if (!session?.user.id) {
+        return { error: "Usuário não autenticado" };
+    }
+
+    if (!imageUrl.startsWith("https://")) {
+        return { error: "URL de imagem inválida" };
+    }
+
+    try {
+        await prisma.user.update({
+            where: { id: session.user.id },
+            data: { image: imageUrl },
+        });
+
+        revalidatePath("/dashboard/profile");
+
+        return { data: "Imagem atualizada com sucesso!" };
+    } catch (err) {
+        console.log(err);
+        return { error: "Erro ao salvar imagem do perfil" };
+    }
+}
+
 export async function updateProfile(formData: FormSchema) {
     const session = await auth();
 
