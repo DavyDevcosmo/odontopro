@@ -8,16 +8,17 @@ import { ProfileContent } from "./_componets/profile"
 
 export default async function Profile() {
     const session = await getSession()
+    const userId = session?.user?.id
+    const email = session?.user?.email
 
-    if (!session) {
+    if (!userId && !email) {
         redirect("/")
     }
 
-    const user = await getUserData({ userId: session.user?.id })
-    console.log("getUserData: ", user)
+    const user = await getUserData({ userId, email: email ?? undefined })
 
     if (!user) {
-        redirect("/")
+        redirect("/dashboard")
     }
     return (
         <div>

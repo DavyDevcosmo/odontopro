@@ -1,22 +1,19 @@
-"use server"
-
 import prisma from "@/lib/prisma";
 
 interface GetUserDataProps {
-  userId: string;
+  userId?: string;
+  email?: string;
 }
 
-export async function getUserData({ userId }: GetUserDataProps) {
+export async function getUserData({ userId, email }: GetUserDataProps) {
   try {
 
-    if (!userId) {
+    if (!userId && !email) {
       return null;
     }
 
     const user = await prisma.user.findFirst({
-      where: {
-        id: userId
-      },
+      where: userId ? { id: userId } : { email },
       include: {
         subscription: true,
       }

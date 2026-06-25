@@ -21,6 +21,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
   debug: process.env.NODE_ENV === "production",
   providers: [GitHub, Google],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user?.id) {
+        token.sub = user.id
+      }
+      return token
+    },
+    session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub
+      }
+      return session
+    },
+  },
 })
 
 authDebugLog(
