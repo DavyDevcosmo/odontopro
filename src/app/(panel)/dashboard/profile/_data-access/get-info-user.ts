@@ -15,7 +15,7 @@ export async function getUserData({ userId, email }: GetUserDataProps) {
     const include = { subscription: true } as const
 
     if (userId) {
-      const userById = await prisma.user.findFirst({
+      const userById = await prisma.user.findUnique({
         where: { id: userId },
         include,
       })
@@ -25,7 +25,7 @@ export async function getUserData({ userId, email }: GetUserDataProps) {
     }
 
     if (email) {
-      return prisma.user.findFirst({
+      return prisma.user.findUnique({
         where: { email },
         include,
       })

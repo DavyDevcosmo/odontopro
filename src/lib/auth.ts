@@ -58,21 +58,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return session
       }
 
-      if (typeof token.email === "string") {
-        session.user.email = token.email
+      const email =
+        (typeof token.email === "string" ? token.email : session.user.email) ??
+        undefined
+
+      if (email) {
+        session.user.email = email
       }
 
-      if (token.sub) {
-        session.user.id = token.sub
-      }
+      const candidateId = typeof token.sub === "string" ? token.sub : undefined
 
-      if (!session.user.id && session.user.email) {
-        const dbUser = await prisma.user.findUnique({
-          where: { email: session.user.email },
+      if (candidateId) {
+        const userById = await prisma.user.findUnique({
+          where: { id: candidateId },
           select: { id: true },
         })
-        if (dbUser) {
-          session.user.id = dbUser.id
+        if (userById) {
+          session.user.id = userById.id
+          return session
+        }
+      }
+
+      if (email) {
+        const userByEmail = await prisma.user.findUnique({
+          where: { email },
+          select: { id: true },
+        })
+        if (userByEmail) {
+          session.user.id = userByEmail.id
         }
       }
 

@@ -5,7 +5,11 @@ import { TRIAL_DAYS } from "./trial-limits"
 import { addDays, isAfter, differenceInDays } from "date-fns"
 
 export async function checkSubscription(userId: string) {
-    const user = await prisma.user.findFirst({
+    if (!userId) {
+        throw new Error("Usuario nao encontrado")
+    }
+
+    const user = await prisma.user.findUnique({
         where: {
             id: userId,
         },
