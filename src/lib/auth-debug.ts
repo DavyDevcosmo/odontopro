@@ -57,3 +57,15 @@ export function getAuthEnvSnapshot() {
     })(),
   };
 }
+
+export function getMissingAuthEnvVars() {
+  const required = [
+    ["AUTH_SECRET", Boolean(process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET)],
+    ["AUTH_GOOGLE_ID", Boolean(process.env.AUTH_GOOGLE_ID)],
+    ["AUTH_GOOGLE_SECRET", Boolean(process.env.AUTH_GOOGLE_SECRET)],
+    ["DATABASE_URL", Boolean(process.env.DATABASE_URL)],
+    ["AUTH_URL", Boolean(process.env.AUTH_URL ?? process.env.NEXTAUTH_URL)],
+  ] as const;
+
+  return required.filter(([, present]) => !present).map(([name]) => name);
+}
