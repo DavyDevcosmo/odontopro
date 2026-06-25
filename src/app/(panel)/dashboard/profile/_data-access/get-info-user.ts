@@ -12,21 +12,29 @@ export async function getUserData({ userId, email }: GetUserDataProps) {
       return null;
     }
 
-    const user = await prisma.user.findFirst({
-      where: userId ? { id: userId } : { email },
-      include: {
-        subscription: true,
-      }
-    })
+    const include = { subscription: true } as const
 
-    if (!user) {
-      return null;
+    if (userId) {
+      const userById = await prisma.user.findFirst({
+        where: { id: userId },
+        include,
+      })
+      if (userById) {
+        return userById
+      }
     }
 
-    return user;
+    if (email) {
+      return prisma.user.findFirst({
+        where: { email },
+        include,
+      })
+    }
+
+    return null;
 
   } catch (err) {
-    console.log(err);
+    console.error("[getUserData]", err);
     return null;
   }
 }
