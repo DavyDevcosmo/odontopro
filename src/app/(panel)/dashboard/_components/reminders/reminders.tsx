@@ -5,7 +5,6 @@ export async function Reminders({ userId }: { userId: string }) {
 
     const reminders = await getReminders({ userId: userId })
 
-    console.log("Lembretes encontrados: ", reminders)
     return (
         <ReminderList reminder={reminders} />
     )

@@ -23,7 +23,6 @@ interface ProfessionalsProps {
 
 export function Professionals({ professionals }: ProfessionalsProps) {
 
-    console.log("professionals:", professionals)
     return (
         <section className="bg-surface-page py-16" id="Profissionais">
 

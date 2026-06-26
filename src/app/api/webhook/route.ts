@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { stripe } from '@/utils/stripe'
-import { manageSubscription } from '@/utils/manage-subcreption';
+import { manageSubscription } from '@/utils/manage-subscription';
 import { revalidatePath } from 'next/cache';
 import { Plan } from '../../../../prisma/generated/prisma/enums';
 

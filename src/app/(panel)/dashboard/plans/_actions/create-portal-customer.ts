@@ -45,7 +45,7 @@ export async function createPortalCustomer() {
             sessionId: portalSession.url
         }
     } catch (err) {
-        console.log(" ERRRO AO CRIAR PORTAL", err)
+        console.error("Erro ao criar portal Stripe:", err)
 
         return {
             sessionId: "",

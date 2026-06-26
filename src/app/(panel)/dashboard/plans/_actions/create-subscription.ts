@@ -27,8 +27,6 @@ export async function createSubscription({ type }: SubscriptionProps) {
             id: userId
         }
     })
-    console.log("findUser:", findUser)
-    console.log("stripe_customer_id:", findUser?.stripe_customer_id)
 
     if (!findUser) {
         return {
@@ -101,8 +99,7 @@ export async function createSubscription({ type }: SubscriptionProps) {
         }
 
     } catch (err) {
-        console.log("ERRO AO CRIAR CHECKOUT")
-        console.log(err)
+        console.error("Erro ao criar checkout Stripe:", err)
         return {
             sessionId: "",
             error: "Falha ao ativar plano."

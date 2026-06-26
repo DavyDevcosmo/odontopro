@@ -28,8 +28,8 @@ export function GridPlans() {
 
                     <CardContent className="flex-1">
                         <ul>
-                            {plan.features.map((feature, index) => (
-                                <li key={index} className="text-sm md:text-base">
+                            {plan.features.map((feature) => (
+                                <li key={feature} className="text-sm md:text-base">
                                     {feature}
                                 </li>
                             ))}

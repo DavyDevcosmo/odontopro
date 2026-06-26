@@ -17,25 +17,6 @@ export default function Header() {
   ]
 
   async function handleLogin() {
-    // #region agent log
-    fetch("http://127.0.0.1:7726/ingest/00e72d34-9e04-4030-9bf1-9ee3e632dbb1", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "111b0b",
-      },
-      body: JSON.stringify({
-        sessionId: "111b0b",
-        runId: "post-fix",
-        hypothesisId: "H6",
-        location: "Header.tsx:handleLogin",
-        message: "client signIn invoked",
-        data: { provider: "google", callbackUrl: "/dashboard" },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {})
-    // #endregion
-
     await signIn("google", { callbackUrl: "/dashboard" })
   }
 

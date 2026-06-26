@@ -23,10 +23,8 @@ export async function canCreateService(subscription: Subscription | null, sessio
             const plan = subscription.plan as keyof typeof PLANS;
             const planLimits = await getPlan(plan);
 
-            console.log("LIMITES DO SEU PLANO: ", planLimits)
-
             return {
-                hasPermission: planLimits.maxServices === null || serviceCount <= planLimits.maxServices,
+                hasPermission: planLimits.maxServices === null || serviceCount < planLimits.maxServices,
                 planId: subscription.plan,
                 expired: false,
                 plan: PLANS[plan],
@@ -38,7 +36,7 @@ export async function canCreateService(subscription: Subscription | null, sessio
 
         return checkUserLimit;
 
-    } catch (err) {
+    } catch (_err) {
         return {
             hasPermission: false,
             planId: "EXPIRED",

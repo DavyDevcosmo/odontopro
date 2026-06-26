@@ -38,11 +38,10 @@ export async function canPermission({ type }: CanPermissionProps): Promise<Resul
     })
 
     switch (type) {
-        case "service":
+        case "service": {
             const permission = await canCreateService(subscription, session)
-
-            return permission;
-
+            return permission
+        }
         default:
             return {
                 hasPermission: false,

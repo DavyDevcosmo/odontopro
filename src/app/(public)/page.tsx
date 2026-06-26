@@ -3,7 +3,7 @@ import { Footer } from "./_components/Footer";
 import Header from "./_components/Header";
 import { Hero } from "./_components/Hero";
 import { Professionals } from "./_components/Professionals";
-import { getProfessionals } from "./data-acess/get-professional";
+import { getProfessionals } from "./data-access/get-professional";
 
 
 export const revalidate = 120;

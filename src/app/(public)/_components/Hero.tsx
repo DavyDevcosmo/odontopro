@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import DoctorImg from "../../../../public/doctor-hero.png";
 
 export function Hero() {
@@ -15,8 +16,8 @@ export function Hero() {
                         </h1>
                         <p className="text-base md:text-lg text-content-secondary">Nós somos uma plataforma para proficionais da saúde com foco em agilizar seu atendimeto de forma simplificada e organizada.</p>
 
-                        <Button className="w-fit">
-                            Encontar uma clinica
+                        <Button className="w-fit" asChild>
+                            <Link href="#Profissionais">Encontrar uma clínica</Link>
                         </Button>
                     </article>
 

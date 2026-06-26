@@ -77,7 +77,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
                         <SidebarLink
                             href="/dashboard/plans"
-                            label="Serviços"
+                            label="Planos"
                             pathname={pathname}
                             isCollapse={isCollapse}
                             icon={<Banknote className="w-6 h-6" />}
