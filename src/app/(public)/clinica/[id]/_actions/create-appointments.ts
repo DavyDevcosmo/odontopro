@@ -2,25 +2,29 @@
 "use server"
 
 import prisma from '@/lib/prisma'
-import { z } from 'zod'
+import { appointmentFormSchema, type AppointmentFormData } from '@/lib/schemas'
+import {
+  getBlockedSlots,
+  getDayRange,
+  hasSlotConflict,
+  parseAppointmentDate,
+} from '@/utils/appointments/slot-blocking'
 
-const formSchema = z.object({
-  name: z.string().min(1, "O nome é obrigatório"),
-  email: z.string().email("O email é obrigatório"),
-  phone: z.string().min(1, "O telefone é obrigatório"),
-  date: z.date(),
-  serviceId: z.string().min(1, "O serviço é obrigatório"),
-  time: z.string().min(1, "O horário é obrigatório"),
-  clinicId: z.string().min(1, "A clínica é obrigatória"),
-})
+type FormSchema = AppointmentFormData
 
-type FormSchema = z.infer<typeof formSchema>
+function isUniqueConstraintError(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "code" in err &&
+    (err as { code: string }).code === "P2002"
+  )
+}
 
 export async function createNewAppointment(formData: FormSchema) {
-  const schema = formSchema.safeParse(formData)
+  const schema = appointmentFormSchema.safeParse(formData)
 
   if (!schema.success) {
-    console.error("Validação falhou:", schema.error.issues)
     return {
       error: schema.error.issues[0].message
     }
@@ -29,48 +33,95 @@ export async function createNewAppointment(formData: FormSchema) {
   const data = schema.data
 
   try {
-   
     const selectedDate = new Date(data.date)
-    
+
     if (isNaN(selectedDate.getTime())) {
       return { error: "Data inválida" }
     }
 
-    const year = selectedDate.getFullYear()
-    const month = selectedDate.getMonth()
-    const day = selectedDate.getDate()
+    const appointmentDate = parseAppointmentDate(selectedDate)
+    const { startDate, endDate } = getDayRange(appointmentDate)
 
-    const appointmentDate = new Date(Date.UTC(year, month, day, 0, 0, 0, 0))
+    const newAppointment = await prisma.$transaction(async (tx) => {
+      const service = await tx.service.findFirst({
+        where: {
+          id: data.serviceId,
+          userId: data.clinicId,
+          status: true,
+        },
+      })
 
-    console.log("Criando agendamento com:", {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      time: data.time,
-      appointmentDate,
-      serviceId: data.serviceId,
-      userId: data.clinicId
-    })
-
-    const newAppointment = await prisma.appointment.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        time: data.time,
-        appointmentDate: appointmentDate,
-        serviceId: data.serviceId,
-        userId: data.clinicId
+      if (!service) {
+        throw new Error("SERVICE_NOT_FOUND")
       }
-    })
 
-    console.log("Agendamento criado com sucesso:", newAppointment.id)
+      const clinic = await tx.user.findUnique({
+        where: { id: data.clinicId },
+        select: { times: true, status: true },
+      })
+
+      if (!clinic || !clinic.status) {
+        throw new Error("CLINIC_UNAVAILABLE")
+      }
+
+      const userTimes = (clinic.times as string[]) ?? []
+
+      if (!userTimes.includes(data.time)) {
+        throw new Error("INVALID_TIME")
+      }
+
+      const existingAppointments = await tx.appointment.findMany({
+        where: {
+          userId: data.clinicId,
+          appointmentDate: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+        include: { service: true },
+      })
+
+      const blockedSlots = getBlockedSlots(userTimes, existingAppointments)
+
+      if (hasSlotConflict(userTimes, blockedSlots, data.time, service.duration)) {
+        throw new Error("SLOT_UNAVAILABLE")
+      }
+
+      return tx.appointment.create({
+        data: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          time: data.time,
+          appointmentDate,
+          serviceId: data.serviceId,
+          userId: data.clinicId,
+        },
+      })
+    })
 
     return {
       data: newAppointment
     }
 
   } catch (err) {
+    if (err instanceof Error) {
+      switch (err.message) {
+        case "SERVICE_NOT_FOUND":
+          return { error: "Serviço não encontrado para esta clínica" }
+        case "CLINIC_UNAVAILABLE":
+          return { error: "Clínica indisponível no momento" }
+        case "INVALID_TIME":
+          return { error: "Horário inválido" }
+        case "SLOT_UNAVAILABLE":
+          return { error: "Horário não disponível. Escolha outro horário." }
+      }
+    }
+
+    if (isUniqueConstraintError(err)) {
+      return { error: "Horário não disponível. Escolha outro horário." }
+    }
+
     console.error("Erro ao cadastrar agendamento:", err)
     return {
       error: "Erro ao cadastrar agendamento"

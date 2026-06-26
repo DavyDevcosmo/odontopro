@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { getInfoSchedule } from "./data_access/get-info-schedule";
-import { ScheduleContent } from "./_componets/schedule-content";
+import { getInfoSchedule } from "./data-access/get-info-schedule";
+import { ScheduleContent } from "./_components/schedule-content";
 
 export default async function SchedulePage({
     params,
@@ -13,8 +13,6 @@ export default async function SchedulePage({
     if (!user) {
         redirect("/")
     }
-
-    console.log(user)
 
     return (
         <ScheduleContent clinic={user} />

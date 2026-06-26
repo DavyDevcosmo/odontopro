@@ -51,8 +51,6 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
 
             const json = await response.json();
 
-            console.log(json)
-
             if (!response.ok) {
                 return []
             }

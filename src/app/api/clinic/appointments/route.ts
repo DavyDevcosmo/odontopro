@@ -40,8 +40,7 @@ export const GET = auth(async function GET(request){
         })
 
         return NextResponse.json(appointments)
-    } catch(err){
-        console.log(err);
+    } catch(_err){
         return NextResponse.json({ error: "Falha ao buscar agendamento"},{ status: 400})
     }
     

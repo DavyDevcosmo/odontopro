@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
+import { getBlockedSlots, getDayRange } from '@/utils/appointments/slot-blocking'
 
 export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl;
@@ -14,10 +15,10 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        // Converte a data recebida (YYYY-MM-DD) em um objeto Date
         const [year, month, day] = dateParam.split("-").map(Number)
-        const startDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0))
-        const endDate = new Date(Date.UTC(year, month - 1, day, 23, 59, 59, 999))
+        const { startDate, endDate } = getDayRange(
+            new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0))
+        )
 
         const user = await prisma.user.findFirst({
             where: { id: userId }
@@ -29,7 +30,6 @@ export async function GET(request: NextRequest) {
             }, { status: 400 })
         }
 
-        // CORREÇÃO DE TIPAGEM: Força o reconhecimento do array de horários
         const userTimes = (user.times as string[]) ?? [];
 
         const appointments = await prisma.appointment.findMany({
@@ -45,29 +45,7 @@ export async function GET(request: NextRequest) {
             }
         })
 
-        const blockedSlots = new Set<string>()
-
-        for (const apt of appointments) {
-            // Calcula quantos slots de 30min o serviço ocupa
-            const requiredSlots = Math.ceil(apt.service.duration / 30)
-
-            // Busca o índice do horário de início no array do usuário
-            const startIndex = userTimes.indexOf(apt.time)
-
-            if (startIndex !== -1) {
-                // Bloqueia o slot inicial e os subsequentes baseados na duração
-                for (let i = 0; i < requiredSlots; i++) {
-                    const blockedSlot = userTimes[startIndex + i]
-                    if (blockedSlot) {
-                        blockedSlots.add(blockedSlot)
-                    }
-                }
-            }
-        }
-
-        const blockedtimes = Array.from(blockedSlots);
-
-        console.log("Horários bloqueados encontrados: ", blockedtimes)
+        const blockedtimes = Array.from(getBlockedSlots(userTimes, appointments));
 
         return NextResponse.json(blockedtimes)
 

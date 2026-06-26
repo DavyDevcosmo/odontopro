@@ -9,8 +9,6 @@ const formSchema = z.object({
     appointmentId: z.string().min(1, "Você precisa fornecer um agendamento "),
 })
 
-type formSchema = z.infer<typeof formSchema>;
-
 export async function cancelAppointment(formData: FormData) {
     const schema = formSchema.safeParse({
         appointmentId: formData.get("appointmentId"),
@@ -44,7 +42,7 @@ export async function cancelAppointment(formData: FormData) {
         return {
             data: " Agendamento cancelado com sucesso"
         }
-    } catch (err) {
+    } catch (_err) {
         return {
             error: " Ocorreu um erro ao deletar este agendamento"
         }

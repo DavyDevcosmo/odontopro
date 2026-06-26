@@ -22,6 +22,8 @@ model Appointment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, appointmentDate, time])
 }
 
 model Reminder {
