@@ -1,5 +1,4 @@
 import { GridPlans } from "./components/grid-plans"
-import { redirect } from "next/navigation"
 import { getSubscription } from "@/utils/get-subscription"
 import { auth } from "@/lib/auth"
 import { SubscriptionDetail } from "./components/subscription-detail"
@@ -8,12 +7,9 @@ import { isActiveSubscriptionStatus } from "@/utils/subscription-status"
 export default async function Plans() {
 
     const session = await auth()
+    const userId = session!.user!.id
 
-    if (!session) {
-        redirect("/")
-    }
-
-    const subscritpion = await getSubscription({ userId: session?.user?.id! })
+    const subscritpion = await getSubscription({ userId })
 
     return (
         <div>

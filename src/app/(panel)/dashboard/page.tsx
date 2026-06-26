@@ -1,6 +1,5 @@
 import Link from "next/link"
-import getSesion from "../../../lib/getSession"
-import { redirect } from "next/navigation"
+import { auth } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "lucide-react"
 import { ButtonCopyLink } from "./_components/button-copy-link"
@@ -11,19 +10,15 @@ import { LabelSubscription } from "@/components/ui/labelSubscription"
 
 
 export default async function Dashboard() {
-    const session = await getSesion()
+    const session = await auth()
+    const userId = session!.user!.id
 
-
-    if (!session) {
-        redirect("/")
-    }
-
-    const subscription = await checkSubscription(session?.user?.id!)
+    const subscription = await checkSubscription(userId)
     return (
         <main>
             <div className="space-x-2 flex items-center justify-end">
-                <Link href={`/clinica/${session.user?.id}`}
-                    target="_black"
+                <Link href={`/clinica/${userId}`}
+                    target="_blank"
                 >
                     <Button className="flex-1 md:flex-[0]">
                         <Calendar className="w-5 h-5 " />
@@ -31,7 +26,7 @@ export default async function Dashboard() {
                     </Button>
                 </Link>
 
-                <ButtonCopyLink userId={session.user?.id!} />
+                <ButtonCopyLink userId={userId} />
             </div>
 
             {subscription?.subscriptionStatus === "EXPIRED" && (
@@ -46,9 +41,9 @@ export default async function Dashboard() {
 
             {subscription?.subscriptionStatus !== "EXPIRED" && (
                 <section className="grid grid-cols1 gap-4 lg:grid-cols-2 mt-4">
-                    <Appointments userId={session.user?.id!} />
+                    <Appointments userId={userId} />
 
-                    <Reminders userId={session.user?.id!} />
+                    <Reminders userId={userId} />
                 </section>
             )}
         </main>

@@ -2,9 +2,7 @@ import NextAuth from "next-auth"
 
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { Adapter } from "next-auth/adapters"
-import GitHub from "next-auth/providers/github"
-import Google from "next-auth/providers/google"
-import { authDebugLog, getAuthEnvSnapshot } from "./auth-debug"
+import { authConfig } from "./auth.config"
 import prisma from "./prisma"
 
 function resolveAuthUrl(): string | undefined {
@@ -24,35 +22,14 @@ if (resolvedAuthUrl && !process.env.AUTH_URL && !process.env.NEXTAUTH_URL) {
   process.env.AUTH_URL = resolvedAuthUrl
 }
 
-authDebugLog(
-  "auth.ts:init:before-nextauth",
-  "initializing NextAuth config",
-  { ...getAuthEnvSnapshot(), resolvedAuthUrl: resolvedAuthUrl ?? null },
-  "H3",
-)
-
+// Prisma Adapter persiste contas OAuth; JWT strategy mantém sessões stateless.
+// Callback session com Prisma resolve o user.id real no servidor (não no middleware/edge).
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma) as Adapter,
-  session: { strategy: "jwt" },
-  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
-  trustHost: true,
   debug: process.env.NODE_ENV === "development",
-  providers: [GitHub, Google],
   callbacks: {
-    jwt({ token, user, profile }) {
-      if (user?.id) {
-        token.sub = user.id
-      }
-      if (user?.email) {
-        token.email = user.email
-      } else if (profile && typeof profile === "object" && "email" in profile) {
-        const profileEmail = profile.email
-        if (typeof profileEmail === "string") {
-          token.email = profileEmail
-        }
-      }
-      return token
-    },
+    ...authConfig.callbacks,
     async session({ session, token }) {
       if (!session.user) {
         return session
@@ -93,10 +70,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 })
-
-authDebugLog(
-  "auth.ts:init:after-nextauth",
-  "NextAuth config initialized",
-  { providerCount: 2 },
-  "H3",
-)
