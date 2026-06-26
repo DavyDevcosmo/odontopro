@@ -5,6 +5,7 @@ import { Subscription } from "../../../../../../prisma/generated/prisma/browser"
 import { createPortalCustomer } from "../_actions/create-portal-customer";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { isActiveSubscriptionStatus } from "@/utils/subscription-status";
 
 
 interface SubscriptionDetailProps {
@@ -41,7 +42,7 @@ export function SubscriptionDetail({ subscription }:
                     </h3>
 
                     <div className="bg-status-chip-confirmed-bg text-status-chip-confirmed-text w-fit px-4 py-1 rounded-md font-medium">
-                        {subscription.status === "active" ? "ATIVO" : "INATIVO"}
+                        {isActiveSubscriptionStatus(subscription.status) ? "ATIVO" : "INATIVO"}
                     </div>
                 </div>
 

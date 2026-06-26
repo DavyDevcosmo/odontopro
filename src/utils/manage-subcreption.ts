@@ -1,11 +1,18 @@
 /**
- * Salvar, atualizar ou deletar informações das assinaturas (subscription) no banco de  dados, sincronizando com Strape.
+ * Salvar, atualizar ou deletar informações das assinaturas (subscription) no banco de  dados, sincronizando com Stripe.
  */
 
 import prisma from "@/lib/prisma";
 import { Plan } from "../../prisma/generated/prisma/enums";
 import { stripe } from "./stripe";
 
+function planFromPriceId(priceId: string): Plan {
+    if (priceId === process.env.STRIPE_PLAN_PROFESSIONAL) {
+        return "PROFESSIONAL"
+    }
+
+    return "BASIC"
+}
 
 export async function manageSubscription(
     subscriptionId: string,
@@ -14,10 +21,6 @@ export async function manageSubscription(
     deleteAction = false,
     type?: Plan
 ) {
-
-    // Buscar do banco o usuario com esse customerId
-    // Salvar os dados da assinatura feita no banco.
-
     const findUser = await prisma.user.findFirst({
         where: {
             stripe_customer_id: customerId
@@ -25,63 +28,64 @@ export async function manageSubscription(
     })
 
     if (!findUser) {
-        return Response.json({ error: "Falha ao realizar assinatura" }, { status: 400 })
+        throw new Error(`Stripe customer not linked to user: ${customerId}`)
+    }
+
+    if (subscriptionId && deleteAction) {
+        await prisma.subscription.deleteMany({
+            where: {
+                userId: findUser.id
+            }
+        })
+        return
     }
 
     const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+    const priceId = subscription.items.data[0].price.id
+    const plan = type ?? planFromPriceId(priceId)
 
     const subscriptionData = {
         id: subscription.id,
         userId: findUser.id,
         status: subscription.status,
-        priceId: subscription.items.data[0].price.id,
-        plan: type ?? "BASIC"
+        priceId,
+        plan,
     }
 
-    if (subscriptionId && deleteAction) {
+    const existing = await prisma.subscription.findUnique({
+        where: {
+            userId: findUser.id
+        }
+    })
+
+    if (!existing) {
+        await prisma.subscription.create({
+            data: subscriptionData
+        })
+        return
+    }
+
+    if (existing.id !== subscription.id) {
         await prisma.subscription.delete({
             where: {
-                id: subscriptionId
+                userId: findUser.id
             }
         })
-        return;
+
+        await prisma.subscription.create({
+            data: subscriptionData
+        })
+        return
     }
 
-    if (createAction) {
-        try {
-            await prisma.subscription.create({
-                data: subscriptionData
-            })
-        } catch (err) {
-            console.log("ERROR AO SALVAR NO BANCO A ASSINATURA")
-            console.log(err);
+    await prisma.subscription.update({
+        where: {
+            id: existing.id
+        },
+        data: {
+            status: subscription.status,
+            priceId,
+            plan,
         }
-
-    } else {
-        try {
-            const findSubscription = await prisma.subscription.findFirst({
-                where: {
-                    id: subscriptionId,
-                }
-            })
-
-            if (!findSubscription) return;
-
-            await prisma.subscription.update({
-                where: {
-                    id: findSubscription.id
-                },
-                data: {
-                    status: subscription.status,
-                    priceId: subscription.items.data[0].price.id,
-                }
-            })
-        } catch (err) {
-            console.log("FALHA AP ATUALIZAR ASSINATURA NO BANCO")
-            console.log(err)
-
-        }
-
-    }
-
+    })
 }

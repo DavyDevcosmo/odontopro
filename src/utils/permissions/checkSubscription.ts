@@ -1,6 +1,7 @@
 "use server"
 
 import prisma from "@/lib/prisma"
+import { isActiveSubscriptionStatus } from "@/utils/subscription-status"
 import { TRIAL_DAYS } from "./trial-limits"
 import { addDays, isAfter, differenceInDays } from "date-fns"
 
@@ -22,7 +23,7 @@ export async function checkSubscription(userId: string) {
         throw new Error("Usuario nao encontrado")
     }
 
-    if (user.subscription && user.subscription.status === 'active') {
+    if (user.subscription && isActiveSubscriptionStatus(user.subscription.status)) {
         return {
             subscriptionStatus: "active",
             message: "Assinatura ativa.",

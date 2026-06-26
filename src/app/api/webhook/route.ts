@@ -5,33 +5,39 @@ import { manageSubscription } from '@/utils/manage-subcreption';
 import { revalidatePath } from 'next/cache';
 import { Plan } from '../../../../prisma/generated/prisma/enums';
 
+function getWebhookSecret() {
+    return process.env.STRIPE_WEBHOOK_SECRET ?? process.env.STRIPE_SECRET_WEBHOOK_KEY
+}
 
+function revalidateSubscriptionPages() {
+    revalidatePath("/dashboard")
+    revalidatePath("/dashboard/plans")
+}
 
 export const POST = async (request: Request) => {
     const signature = request.headers.get("stripe-signature");
-
-
-    console.log("WEBHOOK RECEBIDO")
-    console.log("signature:", signature)
+    const webhookSecret = getWebhookSecret()
 
     if (!signature) {
-        return NextResponse.error();
+        return NextResponse.json({ error: "Missing stripe-signature header" }, { status: 400 })
     }
 
-    console.log("WEBHOOK INICIANDO...");
-    try {
+    if (!webhookSecret) {
+        console.error("Missing STRIPE_WEBHOOK_SECRET or STRIPE_SECRET_WEBHOOK_KEY")
+        return NextResponse.json({ error: "Webhook secret not configured" }, { status: 500 })
+    }
 
+    try {
         const text = await request.text();
 
         const event = stripe.webhooks.constructEvent(
             text,
             signature,
-            process.env.STRIPE_SECRET_WEBHOOK_KEY as string,
+            webhookSecret,
         )
-        console.log("EVENTO:", event.type)
 
         switch (event.type) {
-            case "customer.subscription.deleted":
+            case "customer.subscription.deleted": {
                 const payment = event.data.object as Stripe.Subscription;
 
                 await manageSubscription(
@@ -41,20 +47,23 @@ export const POST = async (request: Request) => {
                     true
                 )
 
+                revalidateSubscriptionPages()
                 break;
-            case "customer.subscription.updated":
-                const paymentIntent = event.data.object as Stripe.Subscription;
+            }
+            case "customer.subscription.created":
+            case "customer.subscription.updated": {
+                const stripeSubscription = event.data.object as Stripe.Subscription;
 
                 await manageSubscription(
-                    paymentIntent.id,
-                    paymentIntent.customer.toString(),
-                    false,
+                    stripeSubscription.id,
+                    stripeSubscription.customer.toString(),
+                    event.type === "customer.subscription.created",
                 )
 
-                revalidatePath("/dashboard/plans")
-
+                revalidateSubscriptionPages()
                 break;
-            case "checkout.session.completed":
+            }
+            case "checkout.session.completed": {
                 const checkoutSession = event.data.object as Stripe.Checkout.Session;
 
                 const type = checkoutSession?.metadata?.type ? checkoutSession?.metadata?.type : "BASIC";
@@ -69,17 +78,17 @@ export const POST = async (request: Request) => {
                     )
                 }
 
-                revalidatePath("/dashboard/plans")
-
+                revalidateSubscriptionPages()
                 break;
+            }
 
             default:
                 console.log("Evento não tratado: ", event.type)
         }
-    } catch (err) {
-        console.log("ERRO NO WEBHOOK:", err)
+
         return NextResponse.json({ received: true })
+    } catch (err) {
+        console.error("ERRO NO WEBHOOK:", err)
+        return NextResponse.json({ error: "Webhook handler failed" }, { status: 400 })
     }
-
 }
-

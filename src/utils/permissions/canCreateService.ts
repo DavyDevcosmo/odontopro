@@ -8,6 +8,7 @@ import { PLANS } from "../plans";
 import { checkSubscriptionExpired } from '@/utils/permissions/checkSubscriptionExpired'
 import { ResultPermissionProp } from "./canPermission";
 import { Subscription } from "../../../prisma/generated/prisma/client";
+import { isActiveSubscriptionStatus } from "@/utils/subscription-status";
 
 export async function canCreateService(subscription: Subscription | null, session: Session): Promise<ResultPermissionProp> {
 
@@ -18,7 +19,7 @@ export async function canCreateService(subscription: Subscription | null, sessio
             }
         })
 
-        if (subscription && subscription.status === "active") {
+        if (subscription && isActiveSubscriptionStatus(subscription.status)) {
             const plan = subscription.plan as keyof typeof PLANS;
             const planLimits = await getPlan(plan);
 

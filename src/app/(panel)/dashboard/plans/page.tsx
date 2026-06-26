@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { getSubscription } from "@/utils/get-subscription"
 import { auth } from "@/lib/auth"
 import { SubscriptionDetail } from "./components/subscription-detail"
+import { isActiveSubscriptionStatus } from "@/utils/subscription-status"
 
 export default async function Plans() {
 
@@ -16,11 +17,11 @@ export default async function Plans() {
 
     return (
         <div>
-            {subscritpion?.status !== "active" && (
+            {!isActiveSubscriptionStatus(subscritpion?.status) && (
                 <GridPlans />
             )}
 
-            {subscritpion?.status === "active" && (
+            {subscritpion && isActiveSubscriptionStatus(subscritpion.status) && (
                 <SubscriptionDetail subscription={subscritpion} />
             )}
         </div>
