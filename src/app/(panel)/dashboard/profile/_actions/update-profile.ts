@@ -33,6 +33,8 @@ export async function updateProfileImage(imageUrl: string) {
         });
 
         revalidatePath("/dashboard/profile");
+        revalidatePath("/");
+        revalidatePath(`/clinica/${session.user.id}`);
 
         return { data: "Imagem atualizada com sucesso!" };
     } catch (err) {
