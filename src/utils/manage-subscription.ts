@@ -5,19 +5,12 @@
 import prisma from "@/lib/prisma";
 import { Plan } from "../../prisma/generated/prisma/enums";
 import { stripe } from "./stripe";
-
-function planFromPriceId(priceId: string): Plan {
-    if (priceId === process.env.STRIPE_PLAN_PROFESSIONAL) {
-        return "PROFESSIONAL"
-    }
-
-    return "BASIC"
-}
+import { planFromPriceId } from "./plan-from-price-id";
 
 export async function manageSubscription(
     subscriptionId: string,
     customerId: string,
-    createAction = false,
+    _createAction = false,
     deleteAction = false,
     type?: Plan
 ) {

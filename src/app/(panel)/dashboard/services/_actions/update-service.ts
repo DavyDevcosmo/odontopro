@@ -2,18 +2,12 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import z from "zod";
+import { updateServiceFormSchema } from "@/lib/schemas";
 import { revalidatePath } from "next/cache";
+import type { z } from "zod";
 
 
-const formSchema = z.object({
-     serviceId: z.string().min(1, { message: "ID do serviço é obrigatório" }),
-    name: z.string().min(1, { message: "O nome do servirço é obrigatório" }),
-    price: z.number().min(1, { message: "O preço do serviço é obrigatório" }),
-    duration: z.number(),
-})
-
-type FromSchema = z.infer<typeof formSchema>
+type FromSchema = z.infer<typeof updateServiceFormSchema>
 
 export async function updateService(formData: FromSchema) {
       const session = await auth();
@@ -24,7 +18,7 @@ export async function updateService(formData: FromSchema) {
             }
         }
     
-        const schema = formSchema.safeParse(formData);
+        const schema = updateServiceFormSchema.safeParse(formData);
     
         if (!schema.success) {
             return {
@@ -51,8 +45,7 @@ export async function updateService(formData: FromSchema) {
             return{
                 data: "Serviço atualizado com S de sucesso"
             }
-        } catch (err) {
-            console.log(err);
+        } catch (_err) {
             return{
                 error: " Falha ao atualizar serviço"
             }

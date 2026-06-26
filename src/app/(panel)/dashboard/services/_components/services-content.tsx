@@ -1,5 +1,5 @@
 import { canPermission } from "@/utils/permissions/canPermission";
-import { getAllServices } from "../_data-acess/get-all-services";
+import { getAllServices } from "../_data-access/get-all-services";
 import { ServicesList } from "./services-list";
 import { LabelSubscription } from "@/components/ui/labelSubscription";
 

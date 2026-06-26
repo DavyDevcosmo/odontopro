@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -20,7 +19,6 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
-import Image from 'next/image'
 import {
     Dialog,
     DialogContent,
@@ -33,7 +31,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 
-import imgTest from '../../../../../../public/foto1.png'
 import { cn } from '@/lib/utils'
 import { Prisma } from '../../../../../../prisma/generated/prisma/browser'
 import { updateProfile } from '../_actions/update-profile'
@@ -42,6 +39,8 @@ import { formatPhone } from "@/utils/formatPhone"
 import { useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import { AvatarProfile } from './profile-avatar'
+import { useTimeSlotPicker } from './use-time-slot-picker'
+import { TimeZoneSelect } from './time-zone-select'
 
 type UserWithSubscriptions = Prisma.UserGetPayload<{
     include: {
@@ -55,11 +54,12 @@ interface ProfileContentProsps {
 
 export function ProfileContent({ user }: ProfileContentProsps) {
     const router = useRouter();
-    const [selectedHours, setSelectedHours] = useState<string[]>(
-        Array.isArray(user.times) ? (user.times as string[]) : []
-    )
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
     const { update } = useSession();
+
+    const { selectedHours, toggleHour, hours } = useTimeSlotPicker(
+        Array.isArray(user.times) ? (user.times as string[]) : []
+    )
 
     const form = useProfileForm(
         {
@@ -71,38 +71,6 @@ export function ProfileContent({ user }: ProfileContentProsps) {
         }
     );
 
-
-    function generateTimeSlots(): string[] {
-        const hours: string[] = [];
-
-        for (let i = 8; i <= 24; i++) {
-            for (let j = 0; j < 2; j++) {
-                const hour = i.toString().padStart(2, "0")
-                const minute = (j * 30).toString().padStart(2, "0")
-                hours.push(`${hour}:${minute}`)
-            }
-        }
-
-        return hours;
-
-    }
-
-    const hours = generateTimeSlots();
-
-    function toggleHour(hour: string) {
-        setSelectedHours((prev) => prev.includes(hour) ? prev.filter(h => h !== hour) : [...prev, hour].sort())
-    }
-
-    const timeZones = Intl.supportedValuesOf("timeZone").filter((zone) =>
-        zone.startsWith("America/Sao_Paulo") ||
-        zone.startsWith("America/Fortaleza") ||
-        zone.startsWith("America/Recife") ||
-        zone.startsWith("America/Bahia") ||
-        zone.startsWith("America/Belem") ||
-        zone.startsWith("America/Manaus") ||
-        zone.startsWith("America/Cuiaba") ||
-        zone.startsWith("America/Boa_Vista")
-    );
 
     async function onSubmit(values: profileFormData) {
 
@@ -296,23 +264,10 @@ export function ProfileContent({ user }: ProfileContentProsps) {
                                                 Selecione o fuso horário
                                             </FormLabel>
                                             <FormControl>
-
-                                                <Select
-                                                    onValueChange={field.onChange}
-                                                    defaultValue={field.value}
-                                                >
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Selecione o seu fuso horário" />
-                                                    </SelectTrigger>
-                                                    <SelectContent className='bg-surface-card border-border'>
-                                                        {timeZones.map((zone) => (
-                                                            <SelectItem key={zone} value={zone}>
-                                                                {zone}
-                                                            </SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
-
+                                                <TimeZoneSelect
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}

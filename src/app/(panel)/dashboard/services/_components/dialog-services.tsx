@@ -7,12 +7,11 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { convertRealToCents } from "@/utils/convertCurrent"
-import { createNewService } from "../_actions/create-servicer"
-import { updateService } from "../_actions/update-serve"
+import { createNewService } from "../_actions/create-service"
+import { updateService } from "../_actions/update-service"
 import { toast } from "sonner"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { set } from "zod"
 
 
 interface DialogServiceProsps {
@@ -35,8 +34,8 @@ export function DialogServices({ closeModal, initialValues, serviceId }: DialogS
     async function onSubmit(values: DialogServiceFormData) {
         setLoading(true);
         const priceInCents = convertRealToCents(values.price)
-        const hours = parseInt(values.hours) || 0;
-        const minutes = parseInt(values.minutes) || 0;
+        const hours = parseInt(values.hours, 10) || 0;
+        const minutes = parseInt(values.minutes, 10) || 0;
 
         //converte as horas e minutos paraduração total em minutos;
         const duration = (hours * 60) + minutes;

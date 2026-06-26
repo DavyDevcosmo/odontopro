@@ -56,7 +56,6 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
             const formData = new FormData();
 
             formData.append("file", image)
-            formData.append("userId", userId)
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/image/upload`, {
                 method: "POST",
@@ -72,7 +71,7 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
 
             return data.results.secure_url as string
 
-        } catch (err) {
+        } catch (_err) {
             toast.error("Erro inesperado ao enviar imagem")
             return null;
         }

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { TimeSlot } from "./schedule-content";
 import { cn } from '@/lib/utils'
-import { isSlotInThePast, isSlotSequenceAvaliable, isToday } from "./schedule-ultils";
+import { isSlotInThePast, isSlotSequenceAvaliable, isToday } from "./schedule-utils";
 
 interface ScheduleTimeListProps {
     selectedDate: Date;
