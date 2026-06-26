@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: postgresql://user:pass@localhost:5432/test
+      AUTH_SECRET: ci-test-secret-minimum-32-characters-long
+      AUTH_URL: http://localhost:3000
+      AUTH_GOOGLE_ID: ci-google-id
+      AUTH_GOOGLE_SECRET: ci-google-secret
+      STRIPE_SECRET_KEY: sk_test_ci
+      STRIPE_WEBHOOK_SECRET: whsec_ci
+      STRIPE_PLAN_BASIC: price_basic
+      STRIPE_PLAN_PROFESSIONAL: price_pro
+      STRIPE_SUCCESS_URL: http://localhost:3000/dashboard/plans
+      STRIPE_CANCEL_URL: http://localhost:3000/dashboard/plans
+      CLOUDINARY_NAME: ci
+      CLOUDINARY_KEY: ci
+      CLOUDINARY_SECRET: ci
+      NEXT_PUBLIC_URL: http://localhost:3000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx prisma generate
+
+      - run: npm run lint
+
+      - run: npm run test
+
+      - run: npx next build
