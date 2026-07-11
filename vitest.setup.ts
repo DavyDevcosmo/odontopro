@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/vitest';
 
 afterEach(async () => {
   vi.resetAllMocks();
+  vi.useRealTimers();
   
   if (typeof document !== 'undefined') {
     const { cleanup } = await import('@testing-library/react');
