@@ -1,20 +1,13 @@
-// vitest.global.setup.ts
-
-import { PrismaClient } from './prisma/generated/prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from "./prisma/generated/prisma/client"
+import { PrismaPg } from "@prisma/adapter-pg"
+import { assertDestructiveDbAccess } from "./src/env/config"
 
 async function cleanupTestDatabase() {
-  const databaseUrl = process.env.DATABASE_URL ?? '';
+  assertDestructiveDbAccess()
 
-  if (process.env.IS_TEST_DATABASE !== 'true') {
-    throw new Error(
-      '🚨 IS_TEST_DATABASE não está definida como "true". ' +
-        'Abortando limpeza para evitar apagar dados reais.',
-    );
-  }
-
-  const adapter = new PrismaPg({ connectionString: databaseUrl });
-  const prisma = new PrismaClient({ adapter });
+  const databaseUrl = process.env.DATABASE_URL ?? ""
+  const adapter = new PrismaPg({ connectionString: databaseUrl })
+  const prisma = new PrismaClient({ adapter })
 
   try {
     await prisma.$executeRawUnsafe(`
@@ -30,16 +23,16 @@ async function cleanupTestDatabase() {
           EXECUTE format('TRUNCATE TABLE %I RESTART IDENTITY CASCADE', table_name);
         END LOOP;
       END $$;
-    `);
+    `)
   } finally {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   }
 }
 
 export async function setup() {
-  await cleanupTestDatabase();
+  await cleanupTestDatabase()
 }
 
 export async function teardown() {
-  await cleanupTestDatabase();
+  await cleanupTestDatabase()
 }
