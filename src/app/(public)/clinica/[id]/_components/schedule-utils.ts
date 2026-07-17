@@ -8,10 +8,6 @@ export function isToday(date: Date) {
     )
 }
 
-/**
- * verificar se determinado slot já passou.
- */
-
 export function isSlotInThePast(slotTime: string) {
     const [slotHour, slotMinute] = slotTime.split(":").map(Number)
     
