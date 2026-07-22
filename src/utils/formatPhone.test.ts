@@ -1,4 +1,3 @@
-import { describe, expect, test } from "vitest"
 import { extractPhoneNumber, formatPhone } from "./formatPhone"
 
 describe("formatPhone", () => {

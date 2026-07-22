@@ -1,4 +1,3 @@
-import { describe, expect, test } from "vitest"
 import { convertRealToCents } from "./convertCurrent"
 
 describe("convertRealToCents", () => {
