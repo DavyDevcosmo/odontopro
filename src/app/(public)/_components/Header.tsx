@@ -61,25 +61,25 @@ export default function Header() {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button
-              className="md:hidden p-2 rounded-md hover:bg-surface-slot-hover"
+              variant="ghost"
+              size="icon"
+              className="md:hidden text-content-primary hover:bg-surface-slot-hover hover:text-content-primary"
               aria-label="Abrir menu"
             >
-              <Menu className="w-6 h-6 text-content-primary" />
+              <Menu className="w-6 h-6" />
             </Button>
           </SheetTrigger>
 
-
-
           <SheetContent side="right" className="w-[240px] sm:w-[300px] z-[9999] bg-surface-card border-border"
           >
-            <SheetTitle className="text-content-primary">Menu</SheetTitle>
+            <SheetTitle className="text-content-primary text-center">Menu</SheetTitle>
             <SheetHeader></SheetHeader>
 
-            <SheetDescription className="text-content-secondary">
-              Veja nosso links
+            <SheetDescription className="text-content-secondary text-center">
+              Veja nossos links
             </SheetDescription>
 
-            <nav className="flex flex-col space-y-4 mt-6">
+            <nav className="flex flex-col items-center space-y-4 mt-6 text-center">
               <NavLinks />
             </nav>
 
