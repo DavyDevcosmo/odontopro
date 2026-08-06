@@ -12,6 +12,7 @@ function getWebhookSecret() {
 function revalidateSubscriptionPages() {
     revalidatePath("/dashboard")
     revalidatePath("/dashboard/plans")
+    revalidatePath("/dashboard/services")
 }
 
 export const POST = async (request: Request) => {
