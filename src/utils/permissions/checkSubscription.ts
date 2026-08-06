@@ -11,12 +11,8 @@ export async function checkSubscription(userId: string) {
     }
 
     const user = await prisma.user.findUnique({
-        where: {
-            id: userId,
-        },
-        include: {
-            subscription: true,
-        }
+        where: { id: userId },
+        include: { subscription: true },
     })
 
     if (!user) {
@@ -27,7 +23,15 @@ export async function checkSubscription(userId: string) {
         return {
             subscriptionStatus: "active",
             message: "Assinatura ativa.",
-            planId: user.subscription.plan
+            planId: user.subscription.plan,
+        }
+    }
+
+    if (user.subscription && !isActiveSubscriptionStatus(user.subscription.status)) {
+        return {
+            subscriptionStatus: "INACTIVE",
+            message: "Sua assinatura ainda não está ativa. Aguarde a confirmação do pagamento.",
+            planId: user.subscription.plan,
         }
     }
 
@@ -37,7 +41,7 @@ export async function checkSubscription(userId: string) {
         return {
             subscriptionStatus: "EXPIRED",
             message: "Seu periodo de teste expirou.",
-            planId: "TRIAL"
+            planId: "TRIAL",
         }
     }
 
@@ -46,6 +50,6 @@ export async function checkSubscription(userId: string) {
     return {
         subscriptionStatus: "TRIAL",
         message: `Você está no período de teste gratuito. Faltam ${daysRemainig} dias`,
-        planId: "TRIAL"
+        planId: "TRIAL",
     }
 }
