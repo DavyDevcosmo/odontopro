@@ -139,8 +139,12 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                     <Sheet>
                         <div className="flex items-center gap-4">
                             <SheetTrigger asChild>
-                                <Button variant="outline" size="icon" className="md:hidden"
-                                    onClick={() => setIsCollapse(false)}>
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    className="md:hidden text-content-primary border-border"
+                                    onClick={() => setIsCollapse(false)}
+                                >
                                     <List className="w-5 h-5" />
                                 </Button>
                             </SheetTrigger>
@@ -151,20 +155,19 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                         </div>
 
                         <SheetContent side="left" className="sm:max-w-xs bg-surface-card border-border text-content-primary">
-                            <SheetTitle className="text-content-primary">
+                            <SheetTitle className="text-content-primary text-center">
                                 PsicoPro
                             </SheetTitle>
-                            <SheetDescription className="text-content-secondary">
+                            <SheetDescription className="text-content-secondary text-center">
                                 Menu administrativo
                             </SheetDescription>
 
-                            <nav
-                                className="grid gap-2 text-base pt-5">
+                            <nav className="grid gap-2 text-base pt-5 justify-items-stretch">
                                 <SidebarLink
                                     href="/dashboard"
                                     label="Agendamentos"
                                     pathname={pathname}
-                                    isCollapse={isCollapse}
+                                    isCollapse={false}
                                     icon={<CalendarCheck2 className="w-6 h-6" />}
                                     variant="menu"
                                 />
@@ -173,7 +176,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                     href="/dashboard/services"
                                     label="Serviços"
                                     pathname={pathname}
-                                    isCollapse={isCollapse}
+                                    isCollapse={false}
                                     icon={<Folder className="w-6 h-6" />}
                                     variant="menu"
                                 />
@@ -182,7 +185,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                     href="/dashboard/profile"
                                     label="Meu perfil"
                                     pathname={pathname}
-                                    isCollapse={isCollapse}
+                                    isCollapse={false}
                                     icon={<Settings className="w-6 h-6" />}
                                     variant="menu"
                                 />
@@ -191,7 +194,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                                     href="/dashboard/plans"
                                     label="Planos"
                                     pathname={pathname}
-                                    isCollapse={isCollapse}
+                                    isCollapse={false}
                                     icon={<Banknote className="w-6 h-6" />}
                                     variant="menu"
                                 />
@@ -226,11 +229,11 @@ function SidebarLink({ href, icon, label, isCollapse, pathname, variant = "sideb
             <div className={clsx("flex items-center gap-2 px-3 py-2 rounded-md transition-colors", {
                 "bg-sidebar-item-active text-sidebar-text-primary": variant === "sidebar" && isActive,
                 "text-sidebar-text-secondary hover:bg-sidebar-item-active hover:text-sidebar-text-primary": variant === "sidebar" && !isActive,
-                "bg-status-chip-confirmed-bg text-status-chip-confirmed-text": variant === "menu" && isActive,
-                "text-content-secondary hover:bg-surface-slot-hover hover:text-content-primary": variant === "menu" && !isActive,
+                "justify-center text-center bg-status-chip-confirmed-bg text-status-chip-confirmed-text": variant === "menu" && isActive,
+                "justify-center text-center text-content-primary hover:bg-surface-slot-hover": variant === "menu" && !isActive,
             })}>
                 <span className="w-6 h-6">{icon}</span>
-                {!isCollapse && <span>{label}</span>}
+                {(variant === "menu" || !isCollapse) && <span>{label}</span>}
             </div>
         </Link>
 
