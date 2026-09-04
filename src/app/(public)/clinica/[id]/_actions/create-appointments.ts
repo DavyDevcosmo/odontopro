@@ -33,13 +33,7 @@ export async function createNewAppointment(formData: FormSchema) {
   const data = schema.data
 
   try {
-    const selectedDate = new Date(data.date)
-
-    if (isNaN(selectedDate.getTime())) {
-      return { error: "Data inválida" }
-    }
-
-    const appointmentDate = parseAppointmentDate(selectedDate)
+    const appointmentDate = parseAppointmentDate(data.date)
     const { startDate, endDate } = getDayRange(appointmentDate)
 
     const newAppointment = await prisma.$transaction(async (tx) => {
