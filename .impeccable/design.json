@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T00:00:00Z",
+  "title": "Design System: PsicoPro",
+  "extensions": {
+    "colorMeta": {
+      "accent-dark": { "role": "primary", "displayName": "Deep Petrol", "canonical": "#1A3A4A", "tonalRamp": ["#0A1A22", "#12293A", "#1A3A4A", "#2A5468", "#4A7A90", "#7AA3B6", "#B4CFDB", "#E6F0F4"] },
+      "accent-primary": { "role": "primary", "displayName": "Calm Water", "canonical": "#4BA3C3", "tonalRamp": ["#0F3A4A", "#1A5A7A", "#1A7A9A", "#4BA3C3", "#7AC0D8", "#A8D6E6", "#D2EBF3", "#EEF7FB"] },
+      "status-chip-confirmed-text": { "role": "secondary", "displayName": "Deep Lake", "canonical": "#1A7A9A", "tonalRamp": ["#0C2F3C", "#124A5E", "#1A6582", "#1A7A9A", "#4A9DB8", "#86C1D4", "#C2E1EB", "#EAF5F9"] },
+      "status-chip-confirmed-bg": { "role": "secondary", "displayName": "Morning Mist", "canonical": "#E3F2F8" },
+      "status-delta-green-text": { "role": "tertiary", "displayName": "Clinical Green", "canonical": "#2E8B57", "tonalRamp": ["#0F2E1D", "#18492F", "#226841", "#2E8B57", "#4ABA7A", "#88D4A8", "#C4EAD3", "#E8F5EE"] },
+      "destructive": { "role": "tertiary", "displayName": "Alert Red", "canonical": "#EF4444", "tonalRamp": ["#450A0A", "#7F1D1D", "#B91C1C", "#EF4444", "#F87171", "#FCA5A5", "#FECACA", "#FEF2F2"] },
+      "surface-page": { "role": "neutral", "displayName": "Waiting-Room Blue-Gray", "canonical": "#EEF3F7" },
+      "surface-card": { "role": "neutral", "displayName": "Clean Sheet", "canonical": "#FFFFFF" },
+      "surface-card-header": { "role": "neutral", "displayName": "Faint Light", "canonical": "#FAFCFD" },
+      "surface-slot-hover": { "role": "neutral", "displayName": "Light Touch", "canonical": "#F0F5F8" },
+      "border": { "role": "neutral", "displayName": "Soft Rule", "canonical": "#D4E3EC" },
+      "content-primary": { "role": "neutral", "displayName": "Deep Petrol (text)", "canonical": "#1A3A4A" },
+      "content-secondary": { "role": "neutral", "displayName": "Foggy Blue", "canonical": "#7A9FB5" },
+      "content-muted": { "role": "neutral", "displayName": "Mist", "canonical": "#B0C8D5" },
+      "sidebar-bg": { "role": "neutral", "displayName": "Sidebar Petrol", "canonical": "#1A3A4A" },
+      "surface-dark-page": { "role": "neutral", "displayName": "Deep Night (planned)", "canonical": "#0D1E26" },
+      "surface-dark-card": { "role": "neutral", "displayName": "Night Card (planned)", "canonical": "#112636" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Landing hero headline only; 2.25rem growing to 3rem at lg." },
+      "headline": { "displayName": "Headline", "purpose": "Public section titles." },
+      "title": { "displayName": "Title", "purpose": "Page and card titles in the panel; wordmark." },
+      "body": { "displayName": "Body", "purpose": "Default panel text and descriptions." },
+      "body-lg": { "displayName": "Body Large", "purpose": "Landing lead paragraph and public links." },
+      "label": { "displayName": "Label", "purpose": "Buttons, links, form labels; uppercase for sidebar group headings." },
+      "mono": { "displayName": "Mono", "purpose": "Loaded (Geist Mono) but not visibly used yet." }
+    },
+    "shadows": [
+      { "name": "thread", "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)", "purpose": "Outline buttons and inputs." },
+      { "name": "sheet", "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)", "purpose": "Cards at rest." },
+      { "name": "hover-lift", "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)", "purpose": "Public clinic cards on hover only." },
+      { "name": "focus-ring", "value": "0 0 0 3px rgb(75 163 195 / 0.5)", "purpose": "Focus-visible on every interactive element." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Tailwind default easing for all state transitions." },
+      { "name": "duration-state", "value": "150ms", "purpose": "Color and background changes on hover/focus." },
+      { "name": "duration-theme", "value": "200ms", "purpose": "Theme toggle color transition." },
+      { "name": "duration-layout", "value": "300ms", "purpose": "Sidebar collapse and card hover lift." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single primary action: Deep Petrol fill that lightens on hover.",
+      "html": "<button class=\"ds-btn-primary\">Agendar horário</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 8px 16px; background: #1A3A4A; color: #FFFFFF; border: 1px solid transparent; border-radius: 6px; font-family: Geist, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4,0,0.2,1), box-shadow 150ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-primary:hover { background: #4A7A90; } .ds-btn-primary:focus-visible { outline: none; border-color: #4BA3C3; box-shadow: 0 0 0 3px rgb(75 163 195 / 0.5); } .ds-btn-primary:disabled { opacity: 0.5; pointer-events: none; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action on white with a soft border and Deep Lake text.",
+      "html": "<button class=\"ds-btn-outline\">Copiar link</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 8px 16px; background: #FFFFFF; color: #1A7A9A; border: 1px solid #D4E3EC; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); font-family: Geist, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-outline:hover { background: #F0F5F8; } .ds-btn-outline:focus-visible { outline: none; border-color: #4BA3C3; box-shadow: 0 0 0 3px rgb(75 163 195 / 0.5); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent action that fills lightly on hover.",
+      "html": "<button class=\"ds-btn-ghost\">Cancelar</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 8px 16px; background: transparent; color: #1A3A4A; border: 1px solid transparent; border-radius: 6px; font-family: Geist, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-ghost:hover { background: #F0F5F8; } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 3px rgb(75 163 195 / 0.5); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "White field with a soft rule; Calm Water border and ring on focus.",
+      "html": "<input class=\"ds-input\" placeholder=\"Nome completo\" />",
+      "css": ".ds-input { width: 100%; height: 36px; padding: 4px 12px; background: #FFFFFF; color: #1A3A4A; border: 1px solid #D4E3EC; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); font-family: Geist, Arial, Helvetica, sans-serif; font-size: 14px; outline: none; transition: border-color 150ms cubic-bezier(0.4,0,0.2,1), box-shadow 150ms cubic-bezier(0.4,0,0.2,1); } .ds-input::placeholder { color: #B0C8D5; } .ds-input:focus-visible { border-color: #4BA3C3; box-shadow: 0 0 0 3px rgb(75 163 195 / 0.5); } .ds-input[aria-invalid=true] { border-color: #EF4444; box-shadow: 0 0 0 3px rgb(239 68 68 / 0.2); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White sheet over the blue-gray page, 12px corners, soft border, quiet shadow.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-title\">Agendamentos de hoje</div><div class=\"ds-card-desc\">3 sessões confirmadas</div></div>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: 6px; padding: 24px; background: #FFFFFF; color: #1A3A4A; border: 1px solid #D4E3EC; border-radius: 12px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); font-family: Geist, Arial, Helvetica, sans-serif; } .ds-card-title { font-weight: 600; line-height: 1; } .ds-card-desc { font-size: 14px; color: #7A9FB5; }"
+    },
+    {
+      "name": "Time Slot",
+      "kind": "custom",
+      "refersTo": "time-slot",
+      "description": "Signature booking control: outline slot, Calm Water border and Morning Mist fill when selected, faded when unavailable.",
+      "html": "<div class=\"ds-slots\"><button class=\"ds-slot\">09:00</button><button class=\"ds-slot ds-slot-selected\">10:00</button><button class=\"ds-slot\" disabled>11:00</button></div>",
+      "css": ".ds-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; } .ds-slot { height: 40px; background: #FFFFFF; color: #1A7A9A; border: 1px solid #D4E3EC; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); font-family: Geist, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; user-select: none; transition: background-color 150ms cubic-bezier(0.4,0,0.2,1); } .ds-slot:hover { background: #F0F5F8; } .ds-slot:focus-visible { outline: none; border-color: #4BA3C3; box-shadow: 0 0 0 3px rgb(75 163 195 / 0.5); } .ds-slot-selected { border: 2px solid #4BA3C3; background: #E3F2F8; color: #1A3A4A; } .ds-slot:disabled { opacity: 0.5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Panel Sidebar",
+      "kind": "nav",
+      "refersTo": "sidebar",
+      "description": "Deep Petrol sidebar with uppercase group labels and a translucent water-blue active item.",
+      "html": "<nav class=\"ds-sidebar\"><div class=\"ds-brand\">Psico<span>Pro</span></div><span class=\"ds-group\">Painel</span><a class=\"ds-item ds-item-active\">Agendamentos</a><a class=\"ds-item\">Serviços</a><span class=\"ds-group\">Configurações</span><a class=\"ds-item\">Meu perfil</a></nav>",
+      "css": ".ds-sidebar { display: flex; flex-direction: column; gap: 4px; width: 256px; padding: 16px; background: #1A3A4A; font-family: Geist, Arial, Helvetica, sans-serif; } .ds-brand { font-size: 20px; font-weight: 700; color: #E0EEF5; margin: 16px 0 24px; } .ds-brand span { color: #4BA3C3; } .ds-group { margin-top: 4px; font-size: 14px; font-weight: 500; text-transform: uppercase; color: #7AAFC5; } .ds-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; color: #7AAFC5; text-decoration: none; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4,0,0.2,1), color 150ms cubic-bezier(0.4,0,0.2,1); } .ds-item:hover, .ds-item-active { background: rgba(75, 163, 195, 0.18); color: #E0EEF5; } .ds-item:focus-visible { outline: none; box-shadow: 0 0 0 3px rgb(75 163 195 / 0.5); }"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip-confirmed",
+      "description": "Morning Mist pill with Deep Lake text marking a confirmed appointment.",
+      "html": "<span class=\"ds-chip\">Confirmado</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; padding: 2px 10px; background: #E3F2F8; color: #1A7A9A; border-radius: 9999px; font-family: Geist, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 500; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Serene Consulting Room",
+    "overview": "PsicoPro should feel like a well-kept waiting room: quiet, orderly, welcoming, and with nothing raising its voice. The whole system lives in one family of blues. A deep petrol blue anchors the text, the primary action, and the panel's sidebar. A water blue marks focus, selection, and the brand's small accent. Very pale blue-gray surfaces form the page behind white cards. Nothing on the screen competes for attention with the psychologist's schedule or the patient's choice of time.\n\nDensity is moderate and the type is plain: a single sans family (Geist) carries the whole hierarchy through weight rather than contrast between typefaces. Depth comes from the tonal step between the pale page and the white card, plus a thin blue-gray border. Shadow is a whisper, used only for small lift. Components are discreet and reliable: soft corners, thin borders, minimal shadow. The interface fades back so the content (times, services, appointments) comes forward.\n\nThe light theme is the implemented system. A dark theme is planned: its tokens are already defined (surface-dark, content-dark, border-dark) and a ThemeToggle exists, but no screen uses them yet.",
+    "keyCharacteristics": [
+      "Monochromatic in blue: petrol, water, and blue-gray, with no warm second accent.",
+      "White cards over a pale blue-gray page; depth comes from tone and border, not shadow.",
+      "A single family, Geist, with hierarchy by weight (700 / 600 / 500 / 400).",
+      "Soft corners (6px on controls, 12px on cards), 1px blue-gray borders.",
+      "A dark petrol sidebar frames the professional's panel; the public area is light from edge to edge."
+    ],
+    "rules": [
+      { "name": "The One Family Rule", "body": "Every interface color comes from the petrol/water/blue-gray family. Green and red exist only to report status, never to decorate.", "section": "colors" },
+      { "name": "The Readable Blue Rule", "body": "Foggy Blue (content-secondary) gives about 2.8:1 on white, and Calm Water (accent-primary) about 2.9:1, both below AA for small text. Essential text uses Deep Petrol or Deep Lake. Foggy Blue is reserved for descriptions that also have a strong title next to them.", "section": "colors" },
+      { "name": "The Weight Not Typeface Rule", "body": "Hierarchy is resolved with 700/600/500/400 within Geist. Don't introduce a second family to \"add personality\".", "section": "typography" },
+      { "name": "The Tone Before Shadow Rule", "body": "Separate surfaces by tone and border first. A large shadow only appears as a response to hover, never at rest.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Deep Petrol (accent-dark) for the primary action and lighten it to #4A7A90 on hover, as the system's button already does.",
+      "Do separate surfaces with a white card over surface-page plus a 1px border, before reaching for any shadow.",
+      "Do keep 6px corners on controls and 12px on cards.",
+      "Do mark focus with the 3px Calm Water ring at 50%, on every interactive element.",
+      "Do use the theme tokens (surface-*, content-*, border) instead of loose colors, so the planned dark theme can arrive without rework.",
+      "Do keep unavailable time slots visible at 50% opacity rather than hiding them."
+    ],
+    "donts": [
+      "Don't put essential text in content-secondary (#7A9FB5) or accent-primary (#4BA3C3) on white; both stay below 3:1.",
+      "Don't introduce warm accents or a second decorative color family; green and red are status only.",
+      "Don't use large shadows at rest; Hover Lift belongs to hover.",
+      "Don't add a second typeface; hierarchy comes from Geist's weight.",
+      "Don't use loose Tailwind colors (bg-red-400, text-white/90) where a token exists; the plan-expired banner is the current exception and should migrate to destructive."
+    ]
+  }
+}
