@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { Plan } from '../../../../prisma/generated/prisma/enums';
 
 function getWebhookSecret() {
-    return process.env.STRIPE_WEBHOOK_SECRET ?? process.env.STRIPE_SECRET_WEBHOOK_KEY
+    return process.env.STRIPE_WEBHOOK_SECRET || process.env.STRIPE_SECRET_WEBHOOK_KEY
 }
 
 function revalidateSubscriptionPages() {
