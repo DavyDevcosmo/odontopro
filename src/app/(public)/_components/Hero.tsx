@@ -6,7 +6,7 @@ import DoctorImg from "../../../../public/doctor-hero.png";
 
 export function Hero() {
     return (
-        <section className="bg-surface-card">
+        <section className="bg-surface-card mt-4">
             <div className="container mx-auto px-4 pt-20 sm:px-6 lg:px-8">
 
                 <main className="flex items-center justify-center ">
@@ -16,7 +16,7 @@ export function Hero() {
                         </h1>
                         <p className="text-base md:text-lg text-content-secondary">Nós somos uma plataforma para proficionais da saúde com foco em agilizar seu atendimeto de forma simplificada e organizada.</p>
 
-                        <Button className="w-fit" asChild>
+                        <Button className="w-fit mb-4" asChild>
                             <Link href="#Profissionais">Encontrar uma clínica</Link>
                         </Button>
                     </article>
